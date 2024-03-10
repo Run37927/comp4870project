@@ -29,3 +29,4 @@ C:\COMP4870\SignalrChat\obj\Debug\net8.0\refint\SignalrChat.dll
 C:\COMP4870\SignalrChat\obj\Debug\net8.0\SignalrChat.pdb
 C:\COMP4870\SignalrChat\obj\Debug\net8.0\SignalrChat.genruntimeconfig.cache
 C:\COMP4870\SignalrChat\obj\Debug\net8.0\ref\SignalrChat.dll
+C:\COMP4870\SignalrChat\obj\Debug\net8.0\SignalrChat.sourcelink.json
