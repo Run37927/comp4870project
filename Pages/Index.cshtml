@@ -1,14 +1,15 @@
 ﻿@page
 <div class="container">
     <div class="chat-container">
-        <ul id="messagesList" class="messages-list">
+        <div id="messagesList" class="messages-list">
             @* messages will be inserted here *@
-        </ul>
+        </div>
         <div class="chat-input-group">
-            User: <input type="text" id="userInput" />
-            Message: <input type="text" id="messageInput" />
+            User: <input type="text" id="userInput" class="user-input" />
+            Message: <input type="text" id="messageInput" class="message-input" />
             <input type="button" id="sendButton" value="Send" />
         </div>
+
     </div>
 </div>
 <script src="~/lib/signalr/dist/browser/signalr.js"></script>

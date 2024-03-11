@@ -10,57 +10,92 @@ html {
   display: flex;
   flex-direction: column;
   height: 80vh; /* Adjust based on preference */
-  width: 60%; /* Example fixed width, or you can use percentage */
+  max-width: 800px;
   margin: auto; /* Centers the container horizontally */
   padding: 20px;
   background-color: #242424;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
 .messages-list {
   flex-grow: 1;
   overflow-y: auto;
-  margin-bottom: 20px;
   padding: 10px;
   background-color: #181818;
   border-radius: 8px;
 }
 
-.messages-list li {
-  margin-bottom: 10px;
-  padding: 10px;
-  background-color: #333;
-  border-radius: 8px;
+/* Styles for individual chat messages */
+.message-container {
+  background-color: #333; /* Dark background for the message */
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-bottom: 8px; /* Space between messages */
+  display: flex;
+  flex-direction: column;
+  max-width: 80%; /* Max width of message bubble */
 }
 
-/* Adjustments for input and button layout */
+.message-header {
+  color: #777; /* Light grey color for name and timestamp */
+  font-size: 0.8em;
+  margin-bottom: 4px;
+}
+
+.message-content {
+  color: #e0e0e0; /* Light text color for the message */
+  font-size: 1em;
+}
+
+/* Styles for the input group at the bottom of the chat */
 .chat-input-group {
   display: flex;
+  align-items: center;
+  padding: 10px;
 }
 
-.chat-input-group input[type="text"] {
-  flex-grow: 1;
+.chat-input-group > input[type="text"].user-input {
+  flex: 0 1 150px; /* flex-grow flex-shrink flex-basis */
   margin-right: 10px;
   padding: 10px;
-  border: none;
-  border-radius: 8px;
+  border: 1px solid #333;
+  background-color: #333;
+  color: #e0e0e0;
+  border-radius: 4px;
 }
 
-.chat-input-group input[type="button"] {
+.chat-input-group > input[type="text"].message-input {
+  flex: 1; /* This will make the message input grow to fill the remaining space */
+  padding: 10px;
+  border: 1px solid #333;
+  background-color: #333;
+  color: #e0e0e0;
+  border-radius: 4px;
+}
+
+.chat-input-group > input[type="button"] {
   padding: 10px 20px;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   background-color: #258cfb;
   color: white;
   cursor: pointer;
 }
 
-.chat-input-group input[type="button"]:hover {
+.chat-input-group > input[type="button"]:hover {
   background-color: #147adb;
 }
 
-/* Adjustments to navbar and footer for the dark theme */
+/* Specific styles for the summary message */
+.summary-message {
+  background-color: #555; /* Different background to stand out */
+  color: #fff; /* White text for better readability */
+  border-left: 3px solid #007bff; /* Highlight with a border */
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+/* ======================== */
 .navbar,
 .footer {
   background-color: #181818;

@@ -22,19 +22,23 @@ namespace SignalrChat.Hubs
 
         public async Task SendMessage(string user, string message)
         {
+            // Add the message to the chat history
             _chatHistory.Add($"{user}: {message}");
 
-            // Broadcast the message to all clients
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
-
-            // Check if the message is a summary request
-            if (message.ToLower() == "/summary")
+            // If the message is a summary request, handle it separately
+            if (message.ToLower().Trim() == "/summary")
             {
                 var summary = await GenerateSummaryAsync(_chatHistory);
-
-                await Clients.All.SendAsync("ReceiveMessage", "ChatBot", summary);
+                // Send the summary only to the user who requested it
+                await Clients.Caller.SendAsync("ReceiveSummary", summary);
+            }
+            else
+            {
+                // For all other messages, broadcast to all clients
+                await Clients.All.SendAsync("ReceiveMessage", user, message);
             }
         }
+
 
         private async Task<string> GenerateSummaryAsync(List<string> messages)
         {
