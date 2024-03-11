@@ -52,6 +52,7 @@ html {
   display: flex;
   align-items: center;
   padding: 10px;
+  gap: 10px;
 }
 
 .chat-input-group > input[type="text"].user-input {
@@ -74,6 +75,7 @@ html {
 }
 
 .chat-input-group > input[type="button"] {
+  flex: 0 1 80px; /* flex-grow flex-shrink flex-basis */
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
@@ -84,6 +86,16 @@ html {
 
 .chat-input-group > input[type="button"]:hover {
   background-color: #147adb;
+}
+
+/* Styles for a chat dropdown menu */
+#languageSelect {
+  flex: 0 1 150px;
+  padding: 10px;
+  border: 1px solid #333;
+  background-color: #333;
+  color: #e0e0e0;
+  border-radius: 4px;
 }
 
 /* Specific styles for the summary message */

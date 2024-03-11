@@ -60,3 +60,15 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     });
     event.preventDefault();
 });
+
+document.getElementById("languageSelect").addEventListener("change", function() {
+    updateLanguagePreference(this.value);
+});
+
+// Example: Sending language preference to the server
+function updateLanguagePreference(language) {
+    console.log("updated language preference: " + language)
+    connection.invoke("UpdateUserPreferences", language).catch(function (err) {
+        return console.error(err.toString());
+    });
+}

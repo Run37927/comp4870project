@@ -13,10 +13,13 @@ namespace SignalrChat.Hubs
     public class ChatHub : Hub
     {
         private readonly IConfiguration _configuration;
+        private readonly ILogger<ChatHub> _logger;
         private static List<string> _chatHistory = new List<string>();
+        private static Dictionary<string, UserPreferences> _userPreferences = new Dictionary<string, UserPreferences>();
 
-        public ChatHub(IConfiguration configuration)
+        public ChatHub(IConfiguration configuration, ILogger<ChatHub> logger)
         {
+            _logger = logger;
             _configuration = configuration;
         }
 
@@ -24,6 +27,8 @@ namespace SignalrChat.Hubs
         {
             // Add the message to the chat history
             _chatHistory.Add($"{user}: {message}");
+            Console.Write("Message of ID: " + Context.ConnectionId);
+            _logger.LogInformation("Message of ID!!: " + Context.ConnectionId);
 
             // If the message is a summary request, handle it separately
             if (message.ToLower().Trim() == "/summary")
@@ -34,9 +39,33 @@ namespace SignalrChat.Hubs
             }
             else
             {
-                // For all other messages, broadcast to all clients
-                await Clients.All.SendAsync("ReceiveMessage", user, message);
+                // Loop through all connected clients and send the message to them
+                foreach (var connectionId in _userPreferences.Keys)
+                {
+                    // Check if the user wants to receive notifications
+                    _logger.LogInformation("Connection ID and Language: " + connectionId + " " + _userPreferences[connectionId].Language);
+                    if (_userPreferences[connectionId].ReceiveNotifications)
+                    {
+                        // Send the message to the user
+                        await Clients.Client(connectionId).SendAsync("ReceiveMessage", user, message + " Meow " + _userPreferences[connectionId].Language);
+                    }
+                }
             }
+        }
+
+        public async Task UpdateUserPreferences(string preference)
+        {
+            _logger.LogInformation("UpdateUserPreferences: " + preference);
+            var connectionId = Context.ConnectionId;
+            _logger.LogInformation("Connection ID: " + connectionId);
+            _userPreferences[connectionId] = new UserPreferences
+            {
+                ReceiveNotifications = true,
+                Language = preference
+            };
+
+            // Acknowledge the preference update to the user
+            await Clients.Caller.SendAsync("PreferenceUpdated", preference);
         }
 
 
@@ -48,9 +77,9 @@ namespace SignalrChat.Hubs
 
             // Prepare the messages for the API request
             var apiMessages = new List<object>
-    {
-        new { role = "system", content = "You are a helpful assistant that summarizes the chats." }
-    };
+            {
+                new { role = "system", content = "You are a helpful assistant that summarizes the chats." }
+            };
             apiMessages.AddRange(messages.Select(m => new { role = "user", content = m }));
 
             var requestBody = new
@@ -103,6 +132,22 @@ namespace SignalrChat.Hubs
             }
         }
 
+        // Override OnConnectedAsync to track connections
+        public override Task OnConnectedAsync()
+        {
+            _logger.LogInformation("Connection ID: " + Context.ConnectionId);
+            _userPreferences.Add(Context.ConnectionId, new UserPreferences());
+            return base.OnConnectedAsync();
+        }
+
+        // Override OnDisconnectedAsync to clean up when a connection is lost
+        public override Task OnDisconnectedAsync(Exception? exception)
+        {
+            // Remove the disconnected client's preferences
+            _userPreferences.Remove(Context.ConnectionId);
+            return base.OnDisconnectedAsync(exception);
+        }
+
         // Define a class to deserialize the response
         public class SummaryResponse
         {
@@ -120,6 +165,10 @@ namespace SignalrChat.Hubs
             public string Content { get; set; }
         }
 
-
+        public class UserPreferences
+        {
+            public bool ReceiveNotifications { get; set; } = true;
+            public string Language { get; set; } = "en-US";
+        }
     }
 }
