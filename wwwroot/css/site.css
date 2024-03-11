@@ -1,22 +1,130 @@
+/* Dark theme base colors */
+body,
 html {
-  font-size: 14px;
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 80vh; /* Adjust based on preference */
+  width: 60%; /* Example fixed width, or you can use percentage */
+  margin: auto; /* Centers the container horizontally */
+  padding: 20px;
+  background-color: #242424;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.messages-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #181818;
+  border-radius: 8px;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.messages-list li {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #333;
+  border-radius: 8px;
 }
 
-body {
-  margin-bottom: 60px;
+/* Adjustments for input and button layout */
+.chat-input-group {
+  display: flex;
+}
+
+.chat-input-group input[type="text"] {
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+}
+
+.chat-input-group input[type="button"] {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #258cfb;
+  color: white;
+  cursor: pointer;
+}
+
+.chat-input-group input[type="button"]:hover {
+  background-color: #147adb;
+}
+
+/* Adjustments to navbar and footer for the dark theme */
+.navbar,
+.footer {
+  background-color: #181818;
+  color: #e0e0e0;
+}
+
+.nav-link,
+.navbar-brand,
+.footer a {
+  color: #e0e0e0;
+}
+
+/* Override Bootstrap colors */
+.btn:focus,
+.btn:active:focus,
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem #258cfb;
+}
+
+/* Overriding Bootstrap's navbar to fit dark theme */
+.navbar {
+  background-color: #242424 !important; /* Dark background for the navbar */
+  border-bottom: 1px solid #444; /* Slight contrast for the bottom border */
+}
+
+.navbar-brand,
+.nav-link {
+  color: #e0e0e0 !important; /* Light text color for legibility */
+}
+
+.navbar-brand:hover,
+.nav-link:hover {
+  color: #a0a0a0 !important; /* Slightly lighter color on hover for feedback */
+}
+
+/* Ensuring dropdown menus also match the dark theme */
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link.active {
+  background-color: #333333; /* Darker background for active/focused nav links */
+  color: #ffffff !important; /* Ensuring text remains legible */
+}
+
+/* Adjustments for mobile navbar toggle icon */
+.navbar-toggler {
+  border-color: #444; /* Dark border color for the toggle */
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23e0e0e0' stroke-width='2' stroke-linecap='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  /* Custom SVG for the toggler icon with a light stroke for contrast */
+}
+
+/* Styling adjustments for the navbar's dropdown menu */
+.dropdown-menu {
+  background-color: #242424; /* Dark background for dropdown */
+  border-color: #444; /* Dark border for dropdown */
+}
+
+.dropdown-item {
+  color: #e0e0e0; /* Light text color for dropdown items */
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #333333; /* Darker background for hover/focus states */
+  color: #ffffff; /* Maintain legibility */
 }
