@@ -39,6 +39,16 @@ namespace SignalrChat.Hubs
             }
             else
             {
+                // Create a GUID for the message
+                var messageId = Guid.NewGuid().ToString();
+
+                // Get list of all current used Languages from _userPreferences
+                List<string> languages = new List<string>();
+                foreach (var connectionId in _userPreferences.Keys)
+                {
+                    languages.Add(_userPreferences[connectionId].Language);
+                }
+
                 // Loop through all connected clients and send the message to them
                 foreach (var connectionId in _userPreferences.Keys)
                 {
@@ -47,7 +57,31 @@ namespace SignalrChat.Hubs
                     if (_userPreferences[connectionId].ReceiveNotifications)
                     {
                         // Send the message to the user
-                        await Clients.Client(connectionId).SendAsync("ReceiveMessage", user, message + " Meow " + _userPreferences[connectionId].Language);
+                        await Clients.Client(connectionId).SendAsync("ReceiveMessage", user, message + " Meow " + _userPreferences[connectionId].Language, messageId);
+                    }
+                }
+
+                // Mock getting a translation for each language
+                // Make a dictoinary to store the translations
+                Dictionary<string, string> translations = new Dictionary<string, string>();
+                foreach (var language in languages)
+                {
+                    // Sleep to mock time to get translation
+                    await Task.Delay(1000);
+                    var translation = $"Translation in {language}: {message}";
+                    translations.Add(language, translation);
+
+                    // TODO add translations to database
+                }
+
+                // Send Translation to all users based on their language
+                foreach (var connectionId in _userPreferences.Keys)
+                {
+                    // Check if the user wants to receive notifications
+                    if (_userPreferences[connectionId].ReceiveNotifications)
+                    {
+                        // Send the message to the user
+                        await Clients.Client(connectionId).SendAsync("ReceiveTranslation", messageId, translations[_userPreferences[connectionId].Language], _userPreferences[connectionId].Language);
                     }
                 }
             }

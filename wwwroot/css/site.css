@@ -47,6 +47,11 @@ html {
   font-size: 1em;
 }
 
+.translated-content {
+  color: #a3e088; /* Light text color for the message */
+  font-size: 1em;
+}
+
 /* Styles for the input group at the bottom of the chat */
 .chat-input-group {
   display: flex;
