@@ -7,6 +7,7 @@ var currentLanguage = "en-US";
 document.getElementById("sendButton").disabled = true;
 
 connection.on("ReceiveMessage", function (user, message, messageId, language) {
+    console.log("Received message: " + message + " from " + user + " with id " + messageId + " in language " + language)
     var timestamp = new Date().toLocaleTimeString(); // Add a timestamp to each message
 
     // Create elements for the message, header, and content
@@ -83,6 +84,7 @@ document.getElementById("sendButton").addEventListener("click", function (event)
 });
 
 document.getElementById("languageSelect").addEventListener("change", function() {
+    currentLanguage = this.value;
     updateLanguagePreference(this.value);
 });
 

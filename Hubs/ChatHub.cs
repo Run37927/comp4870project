@@ -29,13 +29,13 @@ namespace SignalrChat.Hubs
         }
 
 
-        private async Task<string> TranslateMessageAsync(string message, string targetLanguage)
+        private async Task<string> TranslateMessageAsync(string message, string targetLanguage, string orginalLanguage = "en")
         {
             var subscriptionKey = "854f65b40b764246b2ec311120efd3cd"; // Replace with your actual Key1 or Key2
             var endpoint = "https://api.cognitive.microsofttranslator.com";
             var location = "westus2"; // Replace with your actual resource location
 
-            string route = $"/translate?api-version=3.0&from=en&to={targetLanguage}";
+            string route = $"/translate?api-version=3.0&from={orginalLanguage}&to={targetLanguage}";
             object[] body = new object[] { new { Text = message } };
             var requestBody = JsonConvert.SerializeObject(body);
 
@@ -85,6 +85,7 @@ namespace SignalrChat.Hubs
             _chatHistory.Add($"{user}: {message}");
             Console.Write("Message of ID: " + Context.ConnectionId);
             _logger.LogInformation("Message of ID!!: " + Context.ConnectionId);
+            var msgLanguage = _userPreferences[Context.ConnectionId].Language;
 
             // If the message is a summary request, handle it separately
             if (message.ToLower().Trim() == "/summary")
@@ -115,9 +116,8 @@ namespace SignalrChat.Hubs
                     _logger.LogInformation("Connection ID and Language: " + connectionId + " " + _userPreferences[connectionId].Language);
                     if (_userPreferences[connectionId].ReceiveNotifications)
                     {
-                        var curLanguage = _userPreferences[connectionId].Language;
                         // Send the message to the user
-                        await Clients.Client(connectionId).SendAsync("ReceiveMessage", user, message, messageId, curLanguage);
+                        await Clients.Client(connectionId).SendAsync("ReceiveMessage", user, message, messageId, msgLanguage);
                     }
                 }
 
@@ -132,7 +132,7 @@ namespace SignalrChat.Hubs
                     {
                         translatedMessage = message;
                     } else {
-                        translatedMessage = await TranslateMessageAsync(message, language);
+                        translatedMessage = await TranslateMessageAsync(message, language, msgLanguage);
                     }
                     translations.Add(language, translatedMessage);
 
@@ -148,7 +148,7 @@ namespace SignalrChat.Hubs
                         ConversationId = Guid.NewGuid(),
                         SentDate = DateTime.Now
                     };
-                    if (language == _userPreferences[Context.ConnectionId].Language)
+                    if (language == msgLanguage)
                     {
                         newMessage.OriginalMessage = true;
                     }
@@ -162,8 +162,11 @@ namespace SignalrChat.Hubs
                     // Check if the user wants to receive notifications
                     if (_userPreferences[connectionId].ReceiveNotifications)
                     {
-                        // Send the message to the user
-                        await Clients.Client(connectionId).SendAsync("ReceiveTranslation", messageId, translations[_userPreferences[connectionId].Language], _userPreferences[connectionId].Language);
+                        var curLanguage = _userPreferences[connectionId].Language;
+                        if (curLanguage != msgLanguage) {
+                            // Send the message to the user
+                            await Clients.Client(connectionId).SendAsync("ReceiveTranslation", messageId, translations[curLanguage], curLanguage);
+                        }
                     }
                 }
             }
