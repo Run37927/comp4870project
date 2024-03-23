@@ -9,6 +9,7 @@ using comp4870project.Model;
 using DockerMVC.Data;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace SignalrChat.Hubs
 {
@@ -26,6 +27,57 @@ namespace SignalrChat.Hubs
             _configuration = configuration;
             _context = context;
         }
+
+
+        private async Task<string> TranslateMessageAsync(string message, string targetLanguage)
+        {
+            var subscriptionKey = "854f65b40b764246b2ec311120efd3cd"; // Replace with your actual Key1 or Key2
+            var endpoint = "https://api.cognitive.microsofttranslator.com";
+            var location = "westus2"; // Replace with your actual resource location
+
+            string route = $"/translate?api-version=3.0&from=en&to={targetLanguage}";
+            object[] body = new object[] { new { Text = message } };
+            var requestBody = JsonConvert.SerializeObject(body);
+
+            using (var client = new HttpClient())
+            using (var request = new HttpRequestMessage())
+            {
+                // Build the request.
+                request.Method = HttpMethod.Post;
+                request.RequestUri = new Uri(endpoint + route);
+                request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+                request.Headers.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
+                request.Headers.Add("Ocp-Apim-Subscription-Region", location);
+
+                // Send the request and get response.
+                HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Read response as a string.
+                    string result = await response.Content.ReadAsStringAsync();
+                    var translationResult = JsonConvert.DeserializeObject<List<TranslationResult>>(result);
+                    return translationResult[0].Translations[0].Text;
+                }
+                else
+                {
+                    throw new Exception($"Error translating message. Status Code: {response.StatusCode}");
+                }
+            }
+        }
+
+
+        public class TranslationResult
+        {
+            public List<Translation> Translations { get; set; }
+        }
+
+        public class Translation
+        {
+            public string Text { get; set; }
+            public string To { get; set; }
+        }
+
 
         public async Task SendMessage(string user, string message)
         {
@@ -50,7 +102,8 @@ namespace SignalrChat.Hubs
                 List<string> languages = new List<string>();
                 foreach (var connectionId in _userPreferences.Keys)
                 {
-                    if (languages.Contains(_userPreferences[connectionId].Language) == false) {
+                    if (languages.Contains(_userPreferences[connectionId].Language) == false)
+                    {
                         languages.Add(_userPreferences[connectionId].Language);
                     }
                 }
@@ -62,8 +115,11 @@ namespace SignalrChat.Hubs
                     _logger.LogInformation("Connection ID and Language: " + connectionId + " " + _userPreferences[connectionId].Language);
                     if (_userPreferences[connectionId].ReceiveNotifications)
                     {
+                        // Translate the message to the user's language
+                        var translatedMessage = await TranslateMessageAsync(message, _userPreferences[connectionId].Language);
+
                         // Send the message to the user
-                        await Clients.Client(connectionId).SendAsync("ReceiveMessage", user, message + " Meow " + _userPreferences[connectionId].Language, messageId);
+                        await Clients.Client(connectionId).SendAsync("ReceiveMessage", user, translatedMessage + " Meow " + _userPreferences[connectionId].Language, messageId);
                     }
                 }
 
@@ -130,8 +186,8 @@ namespace SignalrChat.Hubs
                 await Clients.Client(connectionId).SendAsync("ReceiveChatHistory", lastMessages, _userPreferences[connectionId].Language);
             }
         }
-        
-        
+
+
 
         public async Task UpdateUserPreferences(string preference)
         {
@@ -168,7 +224,7 @@ namespace SignalrChat.Hubs
                 messages = apiMessages
             };
 
-            var content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
+            var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
             var response = await client.PostAsync("https://api.openai.com/v1/chat/completions", content);
 
             if (response.IsSuccessStatusCode)
@@ -182,7 +238,7 @@ namespace SignalrChat.Hubs
                     PropertyNameCaseInsensitive = true
                 };
 
-                var result = JsonSerializer.Deserialize<SummaryResponse>(responseBody, options);
+                var result = System.Text.Json.JsonSerializer.Deserialize<SummaryResponse>(responseBody, options);
                 Console.WriteLine($"Result: {result}");
 
                 if (result?.Choices != null)
