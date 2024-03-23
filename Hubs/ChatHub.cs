@@ -229,6 +229,7 @@ namespace SignalrChat.Hubs
                                                         content = $"{m.SenderName} : {m.Content}"
                                                     })
                                                     .ToList();
+            lastMessages.Reverse();
             // Prepare the messages for the API request
             var apiMessages = new List<object>
             {
