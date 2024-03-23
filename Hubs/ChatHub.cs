@@ -221,11 +221,14 @@ namespace SignalrChat.Hubs
 
             // Fetch the last 10 messages from the database
             var lastMessages = _context.Messages
-                                        .OrderByDescending(m => m.SentDate)
-                                        .Take(10)
-                                        .Select(m => new { role = "user", content = m.Content })
-                                        .ToList();
-
+                                                    .OrderByDescending(m => m.SentDate)
+                                                    .Take(10)
+                                                    .Select(m => new
+                                                    {
+                                                        role = "user",
+                                                        content = $"{m.SenderName} : {m.Content}"
+                                                    })
+                                                    .ToList();
             // Prepare the messages for the API request
             var apiMessages = new List<object>
             {
