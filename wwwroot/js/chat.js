@@ -5,12 +5,13 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 // Disable send button until connection is established
 document.getElementById("sendButton").disabled = true;
 
-connection.on("ReceiveMessage", function (user, message) {
+connection.on("ReceiveMessage", function (user, message, messageId) {
     var timestamp = new Date().toLocaleTimeString(); // Add a timestamp to each message
 
     // Create elements for the message, header, and content
     var messageContainer = document.createElement("div");
     messageContainer.classList.add("message-container");
+    messageContainer.setAttribute("id", messageId);
 
     var messageHeader = document.createElement("div");
     messageHeader.classList.add("message-header");
@@ -20,12 +21,23 @@ connection.on("ReceiveMessage", function (user, message) {
     messageContent.classList.add("message-content");
     messageContent.textContent = message;
 
+    var translatedContent = document.createElement("div");
+    translatedContent.classList.add("translated-content");
+    translatedContent.textContent = "Translation: Loading...";
+
     // Append the header and content to the message container
     messageContainer.appendChild(messageHeader);
     messageContainer.appendChild(messageContent);
+    messageContainer.appendChild(translatedContent);
 
     // Append the message container to the message list
     document.getElementById("messagesList").appendChild(messageContainer);
+});
+
+connection.on("ReceiveTranslation", function (messageId, translation, language) {
+    var messageContainer = document.getElementById(messageId);
+    var translatedContent = messageContainer.getElementsByClassName("translated-content")[0];
+    translatedContent.textContent = `Translation: ${translation}`;
 });
 
 connection.on("ReceiveSummary", function (summary) {
@@ -60,3 +72,15 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     });
     event.preventDefault();
 });
+
+document.getElementById("languageSelect").addEventListener("change", function() {
+    updateLanguagePreference(this.value);
+});
+
+// Example: Sending language preference to the server
+function updateLanguagePreference(language) {
+    console.log("updated language preference: " + language)
+    connection.invoke("UpdateUserPreferences", language).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
