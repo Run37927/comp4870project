@@ -40,6 +40,11 @@ connection.on("ReceiveTranslation", function (messageId, translation, language) 
     translatedContent.textContent = `Translation: ${translation}`;
 });
 
+connection.on("ReceiveChatHistory", function (messageList, language) {
+    console.log(messageList);
+});
+
+
 connection.on("ReceiveSummary", function (summary) {
     var messageContainer = document.createElement("div");
     messageContainer.classList.add("message-container", "summary-message");
@@ -84,3 +89,9 @@ function updateLanguagePreference(language) {
         return console.error(err.toString());
     });
 }
+
+document.getElementById("historyButton").addEventListener("click", function() {
+    connection.invoke("ChatHistory").catch(function (err) {
+        return console.error(err.toString());
+    });
+});
