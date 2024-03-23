@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using comp4870project.Model;
+using DockerMVC.Data;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 
@@ -14,13 +16,15 @@ namespace SignalrChat.Hubs
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger<ChatHub> _logger;
+        private readonly ApplicationDbContext _context;
         private static List<string> _chatHistory = new List<string>();
         private static Dictionary<string, UserPreferences> _userPreferences = new Dictionary<string, UserPreferences>();
 
-        public ChatHub(IConfiguration configuration, ILogger<ChatHub> logger)
+        public ChatHub(IConfiguration configuration, ILogger<ChatHub> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _configuration = configuration;
+            _context = context;
         }
 
         public async Task SendMessage(string user, string message)
@@ -40,13 +44,15 @@ namespace SignalrChat.Hubs
             else
             {
                 // Create a GUID for the message
-                var messageId = Guid.NewGuid().ToString();
+                var messageId = Guid.NewGuid();
 
                 // Get list of all current used Languages from _userPreferences
                 List<string> languages = new List<string>();
                 foreach (var connectionId in _userPreferences.Keys)
                 {
-                    languages.Add(_userPreferences[connectionId].Language);
+                    if (languages.Contains(_userPreferences[connectionId].Language) == false) {
+                        languages.Add(_userPreferences[connectionId].Language);
+                    }
                 }
 
                 // Loop through all connected clients and send the message to them
@@ -62,16 +68,34 @@ namespace SignalrChat.Hubs
                 }
 
                 // Mock getting a translation for each language
-                // Make a dictoinary to store the translations
+                // Make a Dictionary to store the translations
                 Dictionary<string, string> translations = new Dictionary<string, string>();
                 foreach (var language in languages)
                 {
                     // Sleep to mock time to get translation
                     await Task.Delay(1000);
                     var translation = $"Translation in {language}: {message}";
+
                     translations.Add(language, translation);
 
-                    // TODO add translations to database
+                    // Add translations to database
+                    var newMessage = new SavedMessage
+                    {
+                        ID = Guid.NewGuid(),
+                        MessageId = messageId,
+                        Language = language,
+                        SenderName = user,
+                        OriginalMessage = false,
+                        Content = translation,
+                        ConversationId = Guid.NewGuid(),
+                        SentDate = DateTime.Now
+                    };
+                    if (language == _userPreferences[Context.ConnectionId].Language)
+                    {
+                        newMessage.OriginalMessage = true;
+                    }
+                    _context.Messages.Add(newMessage);
+                    _context.SaveChangesAsync();
                 }
 
                 // Send Translation to all users based on their language
@@ -86,6 +110,28 @@ namespace SignalrChat.Hubs
                 }
             }
         }
+
+        // Get the last 10 messages from the chat history that match there language
+        // Get the messages from the Database
+        public async Task ChatHistory()
+        {
+            // Get the language of requesting user
+            var connectionId = Context.ConnectionId;
+            var language = _userPreferences[connectionId].Language;
+
+            // Get the last 10 messages from the database that match language
+            var lastMessages = _context.Messages.Where(m => m.Language == language).OrderByDescending(m => m.SentDate).Take(10).ToList();
+
+
+            // Check if the user wants to receive notifications
+            if (_userPreferences[connectionId].ReceiveNotifications)
+            {
+                // Send the messages to the user
+                await Clients.Client(connectionId).SendAsync("ReceiveChatHistory", lastMessages, _userPreferences[connectionId].Language);
+            }
+        }
+        
+        
 
         public async Task UpdateUserPreferences(string preference)
         {
