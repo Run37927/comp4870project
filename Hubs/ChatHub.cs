@@ -115,11 +115,9 @@ namespace SignalrChat.Hubs
                     _logger.LogInformation("Connection ID and Language: " + connectionId + " " + _userPreferences[connectionId].Language);
                     if (_userPreferences[connectionId].ReceiveNotifications)
                     {
-                        // Translate the message to the user's language
-                        var translatedMessage = await TranslateMessageAsync(message, _userPreferences[connectionId].Language);
-
+                        var curLanguage = _userPreferences[connectionId].Language;
                         // Send the message to the user
-                        await Clients.Client(connectionId).SendAsync("ReceiveMessage", user, translatedMessage + " Meow " + _userPreferences[connectionId].Language, messageId);
+                        await Clients.Client(connectionId).SendAsync("ReceiveMessage", user, message, messageId, curLanguage);
                     }
                 }
 
@@ -128,11 +126,15 @@ namespace SignalrChat.Hubs
                 Dictionary<string, string> translations = new Dictionary<string, string>();
                 foreach (var language in languages)
                 {
-                    // Sleep to mock time to get translation
-                    await Task.Delay(1000);
-                    var translation = $"Translation in {language}: {message}";
-
-                    translations.Add(language, translation);
+                    var translatedMessage = "";
+                    // Translate the message to the user's language
+                    if (language == _userPreferences[Context.ConnectionId].Language)
+                    {
+                        translatedMessage = message;
+                    } else {
+                        translatedMessage = await TranslateMessageAsync(message, language);
+                    }
+                    translations.Add(language, translatedMessage);
 
                     // Add translations to database
                     var newMessage = new SavedMessage
@@ -142,7 +144,7 @@ namespace SignalrChat.Hubs
                         Language = language,
                         SenderName = user,
                         OriginalMessage = false,
-                        Content = translation,
+                        Content = translatedMessage,
                         ConversationId = Guid.NewGuid(),
                         SentDate = DateTime.Now
                     };

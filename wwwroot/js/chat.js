@@ -1,11 +1,12 @@
 "use strict";
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+var currentLanguage = "en-US";
 
 // Disable send button until connection is established
 document.getElementById("sendButton").disabled = true;
 
-connection.on("ReceiveMessage", function (user, message, messageId) {
+connection.on("ReceiveMessage", function (user, message, messageId, language) {
     var timestamp = new Date().toLocaleTimeString(); // Add a timestamp to each message
 
     // Create elements for the message, header, and content
@@ -21,14 +22,17 @@ connection.on("ReceiveMessage", function (user, message, messageId) {
     messageContent.classList.add("message-content");
     messageContent.textContent = message;
 
-    var translatedContent = document.createElement("div");
-    translatedContent.classList.add("translated-content");
-    translatedContent.textContent = "Translation: Loading...";
 
     // Append the header and content to the message container
     messageContainer.appendChild(messageHeader);
     messageContainer.appendChild(messageContent);
-    messageContainer.appendChild(translatedContent);
+
+    if (language !== currentLanguage) {
+        var translatedContent = document.createElement("div");
+        translatedContent.classList.add("translated-content");
+        translatedContent.textContent = "Translation: Loading...";
+        messageContainer.appendChild(translatedContent);
+    }
 
     // Append the message container to the message list
     document.getElementById("messagesList").appendChild(messageContainer);
