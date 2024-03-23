@@ -131,7 +131,9 @@ namespace SignalrChat.Hubs
                     if (language == _userPreferences[Context.ConnectionId].Language)
                     {
                         translatedMessage = message;
-                    } else {
+                    }
+                    else
+                    {
                         translatedMessage = await TranslateMessageAsync(message, language, msgLanguage);
                     }
                     translations.Add(language, translatedMessage);
@@ -163,7 +165,8 @@ namespace SignalrChat.Hubs
                     if (_userPreferences[connectionId].ReceiveNotifications)
                     {
                         var curLanguage = _userPreferences[connectionId].Language;
-                        if (curLanguage != msgLanguage) {
+                        if (curLanguage != msgLanguage)
+                        {
                             // Send the message to the user
                             await Clients.Client(connectionId).SendAsync("ReceiveTranslation", messageId, translations[curLanguage], curLanguage);
                         }
@@ -216,12 +219,19 @@ namespace SignalrChat.Hubs
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
 
+            // Fetch the last 10 messages from the database
+            var lastMessages = _context.Messages
+                                        .OrderByDescending(m => m.SentDate)
+                                        .Take(10)
+                                        .Select(m => new { role = "user", content = m.Content })
+                                        .ToList();
+
             // Prepare the messages for the API request
             var apiMessages = new List<object>
             {
                 new { role = "system", content = "You are a helpful assistant that summarizes the chats." }
             };
-            apiMessages.AddRange(messages.Select(m => new { role = "user", content = m }));
+            apiMessages.AddRange(lastMessages);
 
             var requestBody = new
             {
@@ -236,7 +246,6 @@ namespace SignalrChat.Hubs
             {
                 var responseBody = await response.Content.ReadAsStringAsync();
                 Console.WriteLine($"API Response: {responseBody}");
-
 
                 var options = new JsonSerializerOptions
                 {
