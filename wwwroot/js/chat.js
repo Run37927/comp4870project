@@ -132,8 +132,8 @@ function updateLanguagePreference(language) {
     });
 }
 
-document.getElementById("historyButton").addEventListener("click", function () {
-    connection.invoke("ChatHistory").catch(function (err) {
-        return console.error(err.toString());
-    });
-});
+// document.getElementById("historyButton").addEventListener("click", function () {
+//     connection.invoke("ChatHistory").catch(function (err) {
+//         return console.error(err.toString());
+//     });
+// });
