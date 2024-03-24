@@ -179,20 +179,18 @@ namespace SignalrChat.Hubs
         // Get the messages from the Database
         public async Task ChatHistory()
         {
-            // Get the language of requesting user
             var connectionId = Context.ConnectionId;
-            var language = _userPreferences[connectionId].Language;
+            var language = _userPreferences.ContainsKey(connectionId) ? _userPreferences[connectionId].Language : "en"; // Default to English if not set
 
-            // Get the last 10 messages from the database that match language
-            var lastMessages = _context.Messages.Where(m => m.Language == language).OrderByDescending(m => m.SentDate).Take(10).ToList();
+            // Fetch the last N messages from the database that match the language
+            var lastMessages = _context.Messages
+                                        .OrderByDescending(m => m.SentDate)
+                                        .Take(20) // Adjust the number of messages as needed
+                                        .ToList();
+            lastMessages.Reverse();
 
-
-            // Check if the user wants to receive notifications
-            if (_userPreferences[connectionId].ReceiveNotifications)
-            {
-                // Send the messages to the user
-                await Clients.Client(connectionId).SendAsync("ReceiveChatHistory", lastMessages, _userPreferences[connectionId].Language);
-            }
+            // Send the messages to the user
+            await Clients.Client(connectionId).SendAsync("ReceiveChatHistory", lastMessages);
         }
 
 
@@ -288,11 +286,12 @@ namespace SignalrChat.Hubs
         }
 
         // Override OnConnectedAsync to track connections
-        public override Task OnConnectedAsync()
+        public override async Task OnConnectedAsync()
         {
             _logger.LogInformation("Connection ID: " + Context.ConnectionId);
             _userPreferences.Add(Context.ConnectionId, new UserPreferences());
-            return base.OnConnectedAsync();
+            await base.OnConnectedAsync();
+            await ChatHistory();
         }
 
         // Override OnDisconnectedAsync to clean up when a connection is lost
