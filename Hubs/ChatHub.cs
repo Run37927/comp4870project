@@ -31,9 +31,9 @@ namespace SignalrChat.Hubs
 
         private async Task<string> TranslateMessageAsync(string message, string targetLanguage, string orginalLanguage = "en")
         {
-            var subscriptionKey = "854f65b40b764246b2ec311120efd3cd"; // Replace with your actual Key1 or Key2
-            var endpoint = "https://api.cognitive.microsofttranslator.com";
-            var location = "westus2"; // Replace with your actual resource location
+            var subscriptionKey = _configuration["AzureTranslation:SubscriptionKey"];
+            var endpoint = _configuration["AzureTranslation:Endpoint"];
+            var location = _configuration["AzureTranslation:Location"];
 
             string route = $"/translate?api-version=3.0&from={orginalLanguage}&to={targetLanguage}";
             object[] body = new object[] { new { Text = message } };
