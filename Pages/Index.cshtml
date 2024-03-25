@@ -1,26 +1,27 @@
 ﻿@page
 <div class="container">
-    <div class="chat-container">
-        <div id="messagesList" class="messages-list">
-            @* messages will be inserted here *@
-        </div>
-        <div class="chat-input-group">
-            Language: <select id="languageSelect">
-                    <option value="en-US">English</option>
-                    <option value="fr-FR">French</option>
-                    <option value="es-ES">Spanish</option>
-                    <!-- Add other languages as needed -->
-                </select>
-            User: <input type="text" id="userInput" class="user-input" />
-        </div>
-        <div class="chat-input-group">
-            Message: <input type="text" id="messageInput" class="message-input" />
-            <input type="button" id="sendButton" value="Send" />
-        </div>
-        <div>
-            <input type="button" id="historyButton" value="History" />
-        </div>
+  <div class="chat-container">
+    <div id="messagesList" class="messages-list">
+      @* messages will be inserted here *@
     </div>
+    <div class="chat-input-group">
+      Language:
+      <select id="languageSelect">
+        <option value="en-US">English</option>
+        <option value="fr-FR">French</option>
+        <option value="es-ES">Spanish</option>
+        <!-- Add other languages as needed -->
+      </select>
+      User: <input type="text" id="userInput" class="user-input" />
+    </div>
+    <div class="chat-input-group">
+      Message: <input type="text" id="messageInput" class="message-input" />
+      <input type="button" id="sendButton" value="Send" />
+    </div>
+    <!-- <div>
+            <input type="button" id="historyButton" value="History" />
+        </div> -->
+  </div>
 </div>
 <script src="~/lib/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
