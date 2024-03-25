@@ -23,6 +23,14 @@ html {
   padding: 10px;
   background-color: #181818;
   border-radius: 8px;
+  /* Hide scrollbar for Webkit browsers like Chrome and Safari */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge, and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 /* Styles for individual chat messages */
