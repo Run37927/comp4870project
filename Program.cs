@@ -39,7 +39,6 @@ app.UseRouting();
 
 app.UseAuthorization();
 app.MapHub<ChatHub>("/chatHub");
-app.MapHub<DrawDotHub>("/drawDotHub");
 
 app.MapRazorPages();
 
