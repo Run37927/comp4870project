@@ -107,3 +107,11 @@ document.getElementById("historyButton").addEventListener("click", function () {
         return console.error(err.toString());
     });
 });
+
+document.getElementById("summaryButton").addEventListener("click", function (event) {
+    var user = document.getElementById("userInput").value;
+    connection.invoke("SendMessage", user, "/summary").catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+});
