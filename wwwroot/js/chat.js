@@ -75,15 +75,21 @@ connection.start().then(function () {
 });
 
 document.getElementById("sendButton").addEventListener("click", function (event) {
+    console.log("Send button clicked");
     var user = document.getElementById("userInput").value;
     var message = document.getElementById("messageInput").value;
-    connection.invoke("SendMessage", user, message).catch(function (err) {
-        return console.error(err.toString());
-    });
+    if (message.trim() !== '') { // Ensure we don't send empty messages
+        connection.invoke("SendMessage", user, message).catch(function (err) {
+            return console.error(err.toString());
+        });
+        console.log("Clearing input field");
+        // Clear the message input field after sending the message
+        document.getElementById("messageInput").value = '';
+    }
     event.preventDefault();
 });
 
-document.getElementById("languageSelect").addEventListener("change", function() {
+document.getElementById("languageSelect").addEventListener("change", function () {
     currentLanguage = this.value;
     updateLanguagePreference(this.value);
 });
@@ -96,7 +102,7 @@ function updateLanguagePreference(language) {
     });
 }
 
-document.getElementById("historyButton").addEventListener("click", function() {
+document.getElementById("historyButton").addEventListener("click", function () {
     connection.invoke("ChatHistory").catch(function (err) {
         return console.error(err.toString());
     });
