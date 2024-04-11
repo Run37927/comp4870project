@@ -372,8 +372,7 @@ h1 .highlight {
 }
 
 .kinda-plan-features {
-  margin: 2.5rem 0; /* my-10 */
-  padding-left: 2rem; /* px-8 */
+  padding-left: 6rem; /* px-8 */
   padding-right: 2rem; /* px-8 */
 }
 
@@ -381,10 +380,6 @@ h1 .highlight {
   display: flex;
   gap: 1.25rem; /* space-x-5 */
   align-items: center;
-}
-
-.kinda-feature-icon {
-  /* Adjustments for the SVG icon */
 }
 
 .kinda-feature-description {
@@ -450,8 +445,7 @@ h1 .highlight {
 }
 
 .kinda-pro-plan-features {
-  margin: 2.5rem 0; /* my-10 */
-  padding-left: 2rem; /* px-8 */
+  padding-left: 6rem; /* px-8 */
   padding-right: 2rem; /* px-8 */
 }
 
@@ -459,10 +453,6 @@ h1 .highlight {
   display: flex;
   gap: 1.25rem; /* space-x-5 */
   align-items: center;
-}
-
-.kinda-pro-feature-icon {
-  /* Adjustments for the SVG icon */
 }
 
 .kinda-pro-feature-description {
