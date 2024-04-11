@@ -75,6 +75,20 @@ connection.on("ReceiveSummary", function (summary) {
     messagesList.scrollTop = messagesList.scrollHeight;
 });
 
+connection.on("UpdateOnlineUsers", function (onlineUsers) {
+    var usersList = document.getElementById("onlineUsersList");
+    if (!usersList) {
+        console.error("Online users list element not found.");
+        return;
+    }
+    usersList.innerHTML = ''; // Clear existing list
+    onlineUsers.forEach(function (user) {
+        var li = document.createElement("li");
+        li.textContent = user; // Assuming 'user' is a string with the user's name or identifier
+        usersList.appendChild(li);
+    });
+});
+
 connection.on("ReceiveTypingNotification", function (user) {
     var typingIndicator = document.getElementById("typingIndicator");
     if (!typingIndicator) {

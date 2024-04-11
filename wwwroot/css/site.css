@@ -15,22 +15,45 @@ p {
 
 
 /* Main chat container */
+.chat-layout{
+  display: flex;
+  border-radius: 8px; /* Match the chat container's border radius */
+  overflow: hidden; /* Ensures the child elements' borders don't break the rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  margin: 1.5rem auto; /* Adjust based on preference */
+  max-width: 80%; /* Maximum width */
+}
 .chat-container {
+  flex: 4;
   background-color: #f8f9fa; /* Light gray background */
   color: #212529; /* Darker text for contrast */
-  border: 1px solid #dee2e6; /* Subtle border */
+  border-right: 1px solid #dee2e6; 
+  height: 85vh; /* Adjust based on preference */
+  max-width: 70%; /* Maximum width */
   display: flex;
   flex-direction: column;
-  height: 85vh; /* Adjust based on preference */
-  width: 100%; /* Full width of its parent container */
-  max-width: 90%; /* Maximum width */
-  margin: 1.3rem auto; /* Centering */
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+.online-users-container {
+  flex: 1;
+  background-color: #f8f9fa; /* Lighten the background to match the chat container */
+  padding-left: 16px; /* Add some padding to the left for better separation */
+}
+.online-users-header {
+  font-weight: bold;
+  padding: 10px 15px; /* Match the padding to the chat container's message padding */
+  color: #212529; /* Match the text color to the chat container */
+}
+#onlineUsersList {
+  list-style: none;
+  padding: 0;
+  margin: 0; /* Remove default margin */
+}
+#onlineUsersList li {
+  padding: 10px 15px; /* Match the chat messages padding for consistency */
 }
 .message-container {
-  background-color: #ffffff; /* Light background for each message */
+  background-color: #ffffff;
   color: #212529; /* Dark text for readability */
   padding: 10px 15px; /* Padding inside the bubble */
   margin-bottom: 10px; /* Space between messages */
@@ -53,7 +76,6 @@ p {
   flex-grow: 1;
   overflow-y: auto;
   padding: 10px;
-  background-color: #ffffff; /* White background for contrast */
   border-radius: 8px;
   min-height: 300px; /* Minimum height to maintain size without messages */
 }
