@@ -487,3 +487,22 @@ h1 .highlight {
   gap: 2.5rem; /* gap-10 */
   padding-top: 3rem; /* pt-12 */
 }
+.kinda-pro-plan-divider{
+  border-top: 1px solid #e2e8f0;
+}
+.kinda-upgrade-button {
+  display: inline-block;
+  background-color: #2563eb; /* Primary button color */
+  color: #ffffff; /* Text color */
+  padding: 10px 20px; /* Button padding */
+  border-radius: 5px; /* Rounded corners */
+  text-align: center; /* Center text */
+  text-decoration: none; /* Remove underline from links */
+  font-weight: 500; /* Medium font weight */
+  transition: background-color 0.3s ease; /* Smooth background color transition on hover */
+}
+
+.kinda-upgrade-button:hover {
+  background-color: #1d4ed8; /* Darker shade on hover */
+  color: #ffffff; /* Text color */
+}
