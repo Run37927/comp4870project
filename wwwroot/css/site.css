@@ -23,7 +23,7 @@ p {
   flex-direction: column;
   height: 85vh; /* Adjust based on preference */
   width: 100%; /* Full width of its parent container */
-  max-width: 800px; /* Maximum width */
+  max-width: 90%; /* Maximum width */
   margin: 1.3rem auto; /* Centering */
   padding: 20px;
   border-radius: 8px;
@@ -35,7 +35,7 @@ p {
   padding: 10px 15px; /* Padding inside the bubble */
   margin-bottom: 10px; /* Space between messages */
   border-radius: 20px; /* Rounded corners for the bubble effect */
-  max-width: 80%; /* Max width of message bubble */
+  max-width: 90%; /* Max width of message bubble */
   word-wrap: break-word; /* Ensure long words do not overflow */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds subtle shadow for depth */
   align-self: flex-start; /* Aligns all messages to the left */
@@ -70,7 +70,11 @@ p {
   margin-right: 10px; /* Space between the circle and the message */
   float: left; /* Align to the left of the message */
 }
-
+#typingIndicator {
+  color: #888;
+  font-style: italic;
+  padding: 5px;
+}
 /* Grouping for input elements */
 .chat-input-group {
   display: flex;

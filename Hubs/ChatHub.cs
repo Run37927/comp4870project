@@ -195,7 +195,11 @@ namespace SignalrChat.Hubs
             }
         }
 
-
+        public async Task SendTypingNotification(string user)
+        {
+            // Broadcast to all clients except the sender
+            await Clients.Others.SendAsync("ReceiveTypingNotification", user);
+        }
 
         public async Task UpdateUserPreferences(string preference)
         {

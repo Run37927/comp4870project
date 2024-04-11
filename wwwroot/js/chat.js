@@ -75,7 +75,20 @@ connection.on("ReceiveSummary", function (summary) {
     messagesList.scrollTop = messagesList.scrollHeight;
 });
 
+connection.on("ReceiveTypingNotification", function (user) {
+    var typingIndicator = document.getElementById("typingIndicator");
+    if (!typingIndicator) {
+        typingIndicator = document.createElement("div");
+        typingIndicator.setAttribute("id", "typingIndicator");
+        document.getElementById("messagesList").appendChild(typingIndicator);
+    }
+    typingIndicator.textContent = user + " is typing...";
 
+    // Hide the typing indicator after a delay
+    setTimeout(function () {
+        typingIndicator.textContent = "";
+    }, 3000); // Adjust the delay as needed
+});
 
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
@@ -96,6 +109,15 @@ document.getElementById("sendButton").addEventListener("click", function (event)
         document.getElementById("messageInput").value = '';
     }
     event.preventDefault();
+});
+
+document.getElementById("messageInput").addEventListener("input", function () {
+    var user = document.getElementById("userInput").value;
+    if (this.value.length > 0) { // Check if the input field is not empty
+        connection.invoke("SendTypingNotification", user).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
 });
 
 document.getElementById("languageSelect").addEventListener("change", function () {
