@@ -98,6 +98,9 @@ p {
   -webkit-backdrop-filter: blur(10px); /* For Safari compatibility */
   border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Optional: adds a subtle border */
 }
+.nav-item:hover{
+  background-color: #f8f9fa;
+}
 
 .btn:focus,
 .btn:active:focus,
@@ -317,4 +320,170 @@ h1 .highlight {
 .list-group{
   display: flex;
   flex-direction: column;
+}
+
+
+.kinda-pricing-header {
+  max-width: 32rem; /* sm:max-w-lg equivalent */
+  margin: 0 auto;
+  margin-bottom: 2.5rem; /* mb-10 equivalent */
+  text-align: center;
+}
+
+.kinda-pricing-title {
+  font-size: 3.75rem; /* text-6xl equivalent */
+  font-weight: bold; /* font-bold equivalent */
+  margin-bottom: 1.25rem; /* mt-5 equivalent */
+}
+
+.kinda-pricing-subtitle {
+  color: #4B5563; /* text-gray-600 equivalent */
+  font-size: 1.125rem; /* sm:text-lg equivalent */
+  margin-top: 1.25rem; /* mt-5 equivalent */
+}
+.kinda-plan-card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0; /* border-gray-200 */
+}
+
+.kinda-plan-content, .kinda-plan-action {
+  padding: 1.25rem; /* p-5 */
+}
+
+.kinda-plan-title {
+  margin: 1rem 0; /* my-3 */
+  text-align: center;
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: bold; /* font-bold */
+}
+
+.kinda-plan-tagline, .kinda-plan-duration {
+  color: #6b7280; /* text-gray-500 */
+  text-align: center;
+}
+
+.kinda-plan-price {
+  margin: 1.25rem 0; /* my-5 */
+  font-size: 3.75rem; /* text-6xl */
+  font-weight: 600; /* font-semibold */
+  text-align: center;
+}
+
+.kinda-plan-features {
+  margin: 2.5rem 0; /* my-10 */
+  padding-left: 2rem; /* px-8 */
+  padding-right: 2rem; /* px-8 */
+}
+
+.kinda-feature-item {
+  display: flex;
+  gap: 1.25rem; /* space-x-5 */
+  align-items: center;
+}
+
+.kinda-feature-icon {
+  /* Adjustments for the SVG icon */
+}
+
+.kinda-feature-description {
+  color: #4b5563; /* text-gray-600 */
+}
+
+.kinda-pro-plan-card {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid #2563eb; /* border-blue-600 */
+}
+@keyframes shimmer {
+  0% {
+      background-position: -40rem 0;
+  }
+  100% {
+      background-position: 40rem 0;
+  }
+}
+.kinda-pro-plan-badge {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8rem;
+  padding: 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #ffffff;
+  text-align: center;
+  z-index: 10;
+  /* Shimmer effect */
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+  background-color: #2563eb; /* Fallback color */
+  background-size: 200% 100%;
+  animation: shimmer 15s infinite linear;
+}
+
+.kinda-pro-plan-content, .kinda-pro-plan-action {
+  padding: 1.25rem; /* p-5 */
+}
+
+.kinda-pro-plan-title {
+  margin: 1rem 0; /* my-3 */
+  text-align: center;
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: bold; /* font-bold */
+}
+
+.kinda-pro-plan-tagline, .kinda-pro-plan-duration {
+  color: #6b7280; /* text-gray-500 */
+  text-align: center;
+}
+
+.kinda-pro-plan-price {
+  margin: 1.25rem 0; /* my-5 */
+  font-size: 3.75rem; /* text-6xl */
+  font-weight: 600; /* font-semibold */
+  text-align: center;
+}
+
+.kinda-pro-plan-features {
+  margin: 2.5rem 0; /* my-10 */
+  padding-left: 2rem; /* px-8 */
+  padding-right: 2rem; /* px-8 */
+}
+
+.kinda-pro-feature-item {
+  display: flex;
+  gap: 1.25rem; /* space-x-5 */
+  align-items: center;
+}
+
+.kinda-pro-feature-icon {
+  /* Adjustments for the SVG icon */
+}
+
+.kinda-pro-feature-description {
+  color: #4b5563; /* text-gray-600 */
+}
+
+.kinda-pro-plan-divider {
+  border-top: 1px solid #e2e8f0; /* border-gray-200 */
+}
+.kinda-pricing-container {
+  max-width: 55rem; /* Similar to max-w-5xl */
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  margin-bottom: 2rem; /* mb-8 */
+  margin-top: 2rem; /* mt-24 */
+}
+
+.kinda-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjust minmax for your preferred minimum width */
+  gap: 2.5rem; /* gap-10 */
+  padding-top: 3rem; /* pt-12 */
 }
