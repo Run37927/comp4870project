@@ -15,6 +15,14 @@ connection.on("ReceiveMessage", function (user, message, messageId, language) {
     messageContainer.classList.add("message-container");
     messageContainer.setAttribute("id", messageId);
 
+
+    // Calculate initials
+    var initials = user.split(' ').map((n) => n[0]).join('').toUpperCase();
+
+    var initialsCircle = document.createElement("div");
+    initialsCircle.classList.add("initials-circle");
+    initialsCircle.textContent = initials; // Assuming user is "FirstName LastName"
+
     var messageHeader = document.createElement("div");
     messageHeader.classList.add("message-header");
     messageHeader.textContent = `${user} · ${timestamp}`;
@@ -25,6 +33,7 @@ connection.on("ReceiveMessage", function (user, message, messageId, language) {
 
 
     // Append the header and content to the message container
+    messageContainer.appendChild(initialsCircle);
     messageContainer.appendChild(messageHeader);
     messageContainer.appendChild(messageContent);
 

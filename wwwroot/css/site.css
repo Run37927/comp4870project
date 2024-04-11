@@ -57,6 +57,19 @@ p {
   border-radius: 8px;
   min-height: 300px; /* Minimum height to maintain size without messages */
 }
+.initials-circle {
+  width: 40px; /* Circle size */
+  height: 40px; /* Circle size */
+  border-radius: 50%; /* Makes it round */
+  background-color: #007bff; /* Circle color */
+  color: white; /* Text color */
+  display: flex;
+  justify-content: center; /* Center the text horizontally */
+  align-items: center; /* Center the text vertically */
+  font-size: 14px; /* Adjust as needed */
+  margin-right: 10px; /* Space between the circle and the message */
+  float: left; /* Align to the left of the message */
+}
 
 /* Grouping for input elements */
 .chat-input-group {
