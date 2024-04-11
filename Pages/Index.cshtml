@@ -7,8 +7,10 @@
     var user = await UserManager.GetUserAsync(User);
     var firstName = user?.FirstName ?? "Guest";
     var lastName = user?.LastName ?? "User";
+    var isSubscribed = user?.IsSubscribed ?? false;
 }
 
+<body data-is-subscribed="@isSubscribed"></body>
 @if (SignInManager.IsSignedIn(User))
 {
     <div class="container">

@@ -94,8 +94,11 @@ document.getElementById("languageSelect").addEventListener("change", function ()
     console.log("Selected language: " + this.value);
     updateLanguagePreference(this.value);
 
-    // Check if the selected language is Arabic or Korean and redirect to the /pricing page
-    if (currentLanguage === 'ar-EG' || currentLanguage === 'ko-KR') {
+    var isSubscribed = document.body.getAttribute('data-is-subscribed') === 'True';
+    console.log(isSubscribed)
+
+    // Only redirect if the user is not subscribed
+    if (!isSubscribed && (currentLanguage === 'ar-EG' || currentLanguage === 'ko-KR')) {
         console.log("Redirecting to /pricing");
         window.location.href = '/pricing';
     }
