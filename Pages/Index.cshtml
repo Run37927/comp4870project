@@ -5,6 +5,8 @@
 
 @{
     var user = await UserManager.GetUserAsync(User);
+    var firstName = user?.FirstName ?? "Guest";
+    var lastName = user?.LastName ?? "User";
 }
 
 @if (SignInManager.IsSignedIn(User))
