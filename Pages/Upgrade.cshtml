@@ -1,0 +1,37 @@
+@page
+@model PaymentModel
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .payment-container {
+            text-align: center;
+        }
+
+        .payment-button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .payment-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="payment-container">
+        <a href="?handler=CreateCheckoutSession" class="payment-button">Take my money</a>
+    </div>
+</body>
+
+</html>

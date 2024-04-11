@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SignalrChat.Hubs;
 using Microsoft.AspNetCore.Identity;
 using comp4870project.Model;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,9 @@ options =>
 builder.Services.AddRazorPages();
 
 builder.Services.AddSignalR();
+builder.Services.AddScoped<StripePaymentService>();
+
+StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 var app = builder.Build();
 
