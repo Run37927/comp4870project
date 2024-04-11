@@ -324,7 +324,7 @@ h1 .highlight {
 
 
 .kinda-pricing-header {
-  max-width: 32rem; /* sm:max-w-lg equivalent */
+  max-width: 42rem; /* sm:max-w-lg equivalent */
   margin: 0 auto;
   margin-bottom: 2.5rem; /* mb-10 equivalent */
   text-align: center;
@@ -485,7 +485,6 @@ h1 .highlight {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjust minmax for your preferred minimum width */
   gap: 2.5rem; /* gap-10 */
-  padding-top: 3rem; /* pt-12 */
 }
 .kinda-pro-plan-divider{
   border-top: 1px solid #e2e8f0;
