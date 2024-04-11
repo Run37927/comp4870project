@@ -11,7 +11,30 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <h2>Welcome @user.UserName, you can start by clicking the chat tab</h2>
+    <div class="container">
+        <div class="chat-container">
+            <div id="messagesList" class="messages-list">
+                @* messages will be inserted here *@
+            </div>
+            <div class="chat-input-group">
+                Language: <select id="languageSelect">
+                    <option value="en-US">English</option>
+                    <option value="fr-FR">French</option>
+                    <option value="es-ES">Spanish</option>
+                    <option value="ar-EG">Arabic 💎</option>
+                    <option value="ko-KR">Korean 💎</option>
+                </select>
+                User: <input type="text" id="userInput" class="user-input" value="@firstName @lastName" readonly />
+                <input type="button" id="summaryButton" value="✨Summary" />
+            </div>
+            <div class="chat-input-group">
+                <input type="text" id="messageInput" class="message-input" />
+                <button type="button" id="sendButton" class="btn-icon">
+                    <i class="fa fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 }
 else
 {
@@ -79,3 +102,7 @@ else
         </div>
     </div>
 }
+
+
+<script src="~/lib/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>

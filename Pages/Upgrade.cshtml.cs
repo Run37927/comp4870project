@@ -3,14 +3,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Stripe.Checkout;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 
 public class PaymentModel : PageModel
 {
     private readonly StripePaymentService _stripePaymentService;
-
-    public PaymentModel(StripePaymentService stripePaymentService)
+    private readonly IWebHostEnvironment _environment;
+    public PaymentModel(StripePaymentService stripePaymentService, IWebHostEnvironment environment)
     {
         _stripePaymentService = stripePaymentService;
+        _environment = environment;
     }
 
     public async Task<IActionResult> OnGetCreateCheckoutSessionAsync()
@@ -32,11 +34,24 @@ public class PaymentModel : PageModel
             },
         };
 
-        var successUrl = "http://localhost:5144/chat"; // Replace with your actual success URL
-        var cancelUrl = "http://localhost:5144/pricing"; // Replace with your actual cancel URL
+        string successUrl;
+        string cancelUrl;
+        if (_environment.IsDevelopment())
+        {
+            successUrl = "http://localhost:5144/"; // Local development success URL
+            cancelUrl = "http://localhost:5144/pricing"; // Local development cancel URL
+        }
+        else
+        {
+            successUrl = "https://chatlingo2.azurewebsites.net"; // Production success URL
+            cancelUrl = "https://chatlingo2.azurewebsites.net/pricing"; // Production cancel URL
+        }
+
 
         var session = await _stripePaymentService.CreateCheckoutSessionAsync(items, successUrl, cancelUrl);
 
         return Redirect(session.Url);
     }
 }
+
+
