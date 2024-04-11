@@ -40,6 +40,9 @@ p {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds subtle shadow for depth */
   align-self: flex-start; /* Aligns all messages to the left */
 }
+.message-header{
+  color: #6c757d; /* Slightly darker text for header */
+}
 .translated-content {
   color: #4a90e2; /* Choose a color that stands out */
   font-style: italic; /* Optional: italicize to differentiate from the main message */
@@ -223,6 +226,42 @@ h1 .highlight {
 .btn-large:hover {
   background-color: #0056b3; /* Darker shade for hover effect */
   color: #fff;
+}
+.btn-large:hover .arrow-right{
+  padding-left: 10px;
+}
+.community-section {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+.avatars {
+  position: relative;
+  height: 45px; /* Adjust based on the size of the avatars */
+  margin-right: 16px; /* Adjust based on your preference */
+}
+.avatars img {
+  width: 45px; /* Adjust based on your preference */
+  height: 45px; /* Adjust based on your preference */
+  border-radius: 50%; /* Makes the images circular */
+  position: absolute;
+  border: 3px solid white; /
+}
+.avatars img:nth-child(1) { left: 0; z-index: 5; }
+.avatars img:nth-child(2) { left: 30px; z-index: 4; }
+.avatars img:nth-child(3) { left: 60px; z-index: 3; }
+.avatars img:nth-child(4) { left: 90px; z-index: 2; }
+.avatars img:nth-child(5) { left: 120px; z-index: 1; }
+
+.community-info {
+  margin-left: 170px; /* Adjust this value as needed */
+}
+.stars {
+  font-size: 24px; /* Adjust based on your preference */
+}
+.community-text {
+  font-weight: bold;
+  font-size: 1rem;
 }
 
 .relative {
