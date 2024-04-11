@@ -83,7 +83,6 @@ p {
   width: 40px; /* Circle size */
   height: 40px; /* Circle size */
   border-radius: 50%; /* Makes it round */
-  background-color: #007bff; /* Circle color */
   color: white; /* Text color */
   display: flex;
   justify-content: center; /* Center the text horizontally */
