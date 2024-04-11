@@ -1,171 +1,110 @@
-/* Dark theme base colors */
-body,
-html {
-  background-color: #121212;
-  color: #e0e0e0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+body, html {
+  background-color: #f0f2f5; /* Lighter background */
+  color: #333; /* Darker text for better contrast on light background */
+}
+h1, h2, h3 {
+  color: #333; /* Dark color for headings */
+  font-weight: bold; /* Assuming the landing page uses bold headings */
 }
 
+p {
+  color: #666; /* Slightly lighter text color for paragraphs */
+  font-size: 1rem; /* Adjust based on landing page's paragraph size */
+}
+
+
+
+/* Main chat container */
 .chat-container {
+  background-color: #f8f9fa; /* Light gray background */
+  color: #212529; /* Darker text for contrast */
+  border: 1px solid #dee2e6; /* Subtle border */
   display: flex;
   flex-direction: column;
-  height: 80vh; /* Adjust based on preference */
-  max-width: 800px;
-  margin: auto; /* Centers the container horizontally */
+  height: 85vh; /* Adjust based on preference */
+  width: 100%; /* Full width of its parent container */
+  max-width: 800px; /* Maximum width */
+  margin: 1.3rem auto; /* Centering */
   padding: 20px;
-  background-color: #242424;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 }
+.message-container {
+  background-color: #ffffff; /* Light background for each message */
+  color: #212529; /* Dark text for readability */
+  padding: 10px 15px; /* Padding inside the bubble */
+  margin-bottom: 10px; /* Space between messages */
+  border-radius: 20px; /* Rounded corners for the bubble effect */
+  max-width: 80%; /* Max width of message bubble */
+  word-wrap: break-word; /* Ensure long words do not overflow */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds subtle shadow for depth */
+  align-self: flex-start; /* Aligns all messages to the left */
+}
+.translated-content {
+  color: #4a90e2; /* Choose a color that stands out */
+  font-style: italic; /* Optional: italicize to differentiate from the main message */
+  margin-top: 4px; /* Add some space above the translation for better separation */
+}
+/* Container for messages */
 .messages-list {
   flex-grow: 1;
   overflow-y: auto;
   padding: 10px;
-  background-color: #181818;
+  background-color: #ffffff; /* White background for contrast */
   border-radius: 8px;
+  min-height: 300px; /* Minimum height to maintain size without messages */
 }
 
-/* Styles for individual chat messages */
-.message-container {
-  background-color: #333; /* Dark background for the message */
-  border-radius: 4px;
-  padding: 8px 12px;
-  margin-bottom: 8px; /* Space between messages */
-  display: flex;
-  flex-direction: column;
-  max-width: 80%; /* Max width of message bubble */
-}
-
-.message-header {
-  color: #777; /* Light grey color for name and timestamp */
-  font-size: 0.8em;
-  margin-bottom: 4px;
-}
-
-.message-content {
-  color: #e0e0e0; /* Light text color for the message */
-  font-size: 1em;
-}
-
-.translated-content {
-  color: #a3e088; /* Light text color for the message */
-  font-size: 1em;
-}
-
-/* Styles for the input group at the bottom of the chat */
+/* Grouping for input elements */
 .chat-input-group {
   display: flex;
   align-items: center;
-  padding: 10px;
-  gap: 10px;
+  gap: 10px; /* Space between elements */
+  margin-top: 10px; /* Space above the group */
 }
 
-.chat-input-group > input[type="text"].user-input {
-  flex: 0 1 150px; /* flex-grow flex-shrink flex-basis */
-  margin-right: 10px;
-  padding: 10px;
-  border: 1px solid #333;
-  background-color: #333;
-  color: #e0e0e0;
+/* Styling for select and input elements */
+.chat-input-group select,
+.chat-input-group input[type="text"] {
+  padding: 8px;
+  border: 1px solid #ced4da; /* Lighter border */
   border-radius: 4px;
+  background-color: #ffffff; /* White background */
+  color: #495057; /* Slightly darker text for readability */
 }
 
-.chat-input-group > input[type="text"].message-input {
-  flex: 1; /* This will make the message input grow to fill the remaining space */
-  padding: 10px;
-  border: 1px solid #333;
-  background-color: #333;
-  color: #e0e0e0;
-  border-radius: 4px;
-}
-
-.chat-input-group > input[type="button"] {
-  flex: 0 1 80px; /* flex-grow flex-shrink flex-basis */
-  padding: 10px 20px;
+/* Styling for buttons */
+.chat-input-group input[type="button"],
+#summaryButton {
+  padding: 8px 12px;
   border: none;
   border-radius: 4px;
-  background-color: #258cfb;
-  color: white;
-  cursor: pointer;
+  background-color: #007bff; /* Bootstrap primary blue */
+  color: #ffffff; /* White text */
+  cursor: pointer; /* Cursor change to indicate clickable */
 }
 
-.chat-input-group > input[type="button"]:hover {
-  background-color: #147adb;
+.chat-input-group input[type="button"]:hover,
+#summaryButton:hover {
+  background-color: #0056b3; /* Darker shade for hover effect */
 }
 
-/* Styles for a chat dropdown menu */
-#languageSelect {
-  flex: 0 1 150px;
-  padding: 10px;
-  border: 1px solid #333;
-  background-color: #333;
-  color: #e0e0e0;
-  border-radius: 4px;
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Ensure the navbar is above other content */
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+  backdrop-filter: blur(10px); /* Blur effect for the background */
+  -webkit-backdrop-filter: blur(10px); /* For Safari compatibility */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Optional: adds a subtle border */
 }
 
-/* Specific styles for the summary message */
-.summary-message {
-  background-color: #555; /* Different background to stand out */
-  color: #fff; /* White text for better readability */
-  border-left: 3px solid #007bff; /* Highlight with a border */
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-/* ======================== */
-.navbar,
-.footer {
-  background-color: #181818;
-  color: #e0e0e0;
-}
-
-.nav-link,
-.navbar-brand,
-.footer a {
-  color: #e0e0e0;
-}
-
-/* Override Bootstrap colors */
 .btn:focus,
 .btn:active:focus,
 .form-control:focus {
   box-shadow: 0 0 0 0.2rem #258cfb;
 }
 
-/* Overriding Bootstrap's navbar to fit dark theme */
-.navbar {
-  background-color: #242424 !important; /* Dark background for the navbar */
-  border-bottom: 1px solid #444; /* Slight contrast for the bottom border */
-}
-
-.navbar-brand,
-.nav-link {
-  color: #e0e0e0 !important; /* Light text color for legibility */
-}
-
-.navbar-brand:hover,
-.nav-link:hover {
-  color: #a0a0a0 !important; /* Slightly lighter color on hover for feedback */
-}
-
-/* Ensuring dropdown menus also match the dark theme */
-.navbar-light .navbar-nav .nav-link:focus,
-.navbar-light .navbar-nav .nav-link.active {
-  background-color: #333333; /* Darker background for active/focused nav links */
-  color: #ffffff !important; /* Ensuring text remains legible */
-}
-
-/* Adjustments for mobile navbar toggle icon */
-.navbar-toggler {
-  border-color: #444; /* Dark border color for the toggle */
-}
-
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23e0e0e0' stroke-width='2' stroke-linecap='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-  /* Custom SVG for the toggler icon with a light stroke for contrast */
-}
-
-/* Styling adjustments for the navbar's dropdown menu */
 .dropdown-menu {
   background-color: #242424; /* Dark background for dropdown */
   border-color: #444; /* Dark border for dropdown */
@@ -179,4 +118,207 @@ html {
 .dropdown-item:focus {
   background-color: #333333; /* Darker background for hover/focus states */
   color: #ffffff; /* Maintain legibility */
+}
+
+
+.main-content {
+  max-width: 80rem; /* Adjusted to match max-w-5xl */
+  margin: 8rem auto; /* my-32 */
+  padding: 0 1.5rem; /* px-6, adjusted for simplicity */
+}
+.content-wrapper {
+  text-align: center;
+  margin-top: 28px;
+}
+
+
+h1 {
+  font-size: 2.5rem; /* Adjust based on your design */
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+h1 .highlight {
+  color: #007bff; /* Example highlight color */
+}
+
+/* For the div */
+.custom-chat-announcement {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 9999px; /* rounded-full */
+  border: 1px solid #e2e8f0; /* border-gray-200 */
+  background-color: #ffffff; /* bg-white */
+  padding: 0.5rem 1.75rem; /* px-7 py-2 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+  backdrop-filter: blur(12px); /* backdrop-blur */
+  transition: all 0.2s ease-in-out; /* transition-all */
+}
+
+.custom-chat-announcement:hover {
+  border-color: #cbd5e1; /* hover:border-gray-300 */
+  background-color: rgba(255, 255, 255, 0.5); /* hover:bg-white/50 */
+}
+
+/* For the p */
+.custom-chat-announcement-text {
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 600; /* font-semibold */
+  color: #4a5568; /* text-gray-700 */
+  margin-bottom: 0 !important; /* mb-0 */
+}
+/* For the outer div */
+.custom-chat-intro {
+  margin-bottom: 3rem; /* mb-12 */
+  margin-top: 5rem; /* mt-28 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* For the h1 */
+.custom-chat-heading {
+  max-width: 56rem; /* max-w-4xl */
+  font-size: 4rem; /* text-5xl */
+  font-weight: bold;
+}
+
+.custom-chat-heading span {
+  color: #3182ce; /* text-blue-600 */
+}
+
+/* For the a */
+.btn-large {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.btn-large .arrow-right {
+  margin-left: 0.5rem; /* ml-2 */
+  height: 1.25rem; /* h-5 */
+  width: 1.25rem; /* w-5 */
+}
+
+.relative {
+  position: relative;
+}
+
+.isolate {
+  isolation: isolate;
+}
+
+.decorative-bg {
+  position: absolute;
+  inset: 0;
+  top: -20px; /* Adjusted for a less intrusive position */
+  z-index: -10;
+  overflow: hidden;
+  filter: blur(48px); /* You can adjust the blur if needed */
+  background-image: linear-gradient(to top right, #ff80b5, #9089fc);
+  opacity: 0.15; /* Reduced opacity for subtlety */
+}
+.decorative-shape {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%; /* Ensure it spans the full width of its container */
+  height: 100%; /* Match the height to make sure it covers the area */
+  background: linear-gradient(to right, #ff80b5, #9089fc);
+  opacity: 0.15; /* Adjust opacity for subtlety */
+  clip-path: polygon(0 0, 30% 0, 25% 100%, 0% 100%);
+}
+
+.decorative-bg::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 36.125rem; /* Adjusted from w-[36.125rem] */
+  aspect-ratio: 1155 / 678;
+  transform: translateX(-50%) rotate(30deg);
+  clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%);
+}
+
+
+.content-container {
+  max-width: 72rem; /* Adjusted from max-w-6xl */
+  padding: 1.5rem; /* Adjusted from px-6 */
+  margin: auto;
+}
+
+.image-container {
+  margin: -0.5rem; /* Adjusted from -m-2 */
+  border-radius: 1rem; /* Adjusted from rounded-xl */
+  background-color: rgba(74, 74, 74, 0.05); /* Adjusted from bg-gray-900/5 */
+  padding: 0.5rem; /* Adjusted from p-2 */
+  box-shadow: 0 0 0 1px rgba(74, 74, 74, 0.1); /* Adjusted from ring-1 ring-inset ring-gray-900/10 */
+}
+.image-preview {
+  width: 100%;
+  border-radius: 0.75rem;
+  background-color: #fff;
+  padding: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.content-heading {
+  font-size: 2.5rem; /* text-4xl */
+  font-weight: bold;
+  color: #1a202c; /* text-gray-900 */
+  text-align: center;
+  margin-top: 0.5rem; /* mt-2 */
+}
+.content-description {
+  margin-top: 1rem; /* mt-4 */
+  font-size: 1.125rem; /* text-lg */
+  color: #4a5568; /* text-gray-600 */
+  text-align: center;
+}
+.steps-list {
+  display: flex; /* Display steps horizontally */
+  gap: 3rem; /* Roughly md:space-x-12 */
+  margin: 2rem 0; /* my-8 */
+  padding-top: 2rem; /* pt-8 */
+}
+
+.step-item {
+  flex: 1; /* Equal width for each step */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* space-y-2 */
+  padding: 0.5rem 1rem; /* py-2 pl-4 */
+  border-top: 4px solid #cbd5e0; /* md:border-t-2 */
+  padding-bottom: 0; /* md:pb-0 */
+  padding-top: 1rem; /* md:pt-4 */
+}
+
+.step-title {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: bold;
+}
+
+.step-description {
+  margin-top: 0.5rem; /* mt-2 */
+  color: #4a5568; /* text-zinc-700 */
+}
+.step-indicator {
+  font-size: 0.875rem; /* Equivalent to text-sm in Tailwind CSS */
+  font-weight: 500; /* Medium font weight, assuming 'font-medium' */
+  color: #3182ce; /* A shade of blue, assuming 'text-blue-600' */
+}
+.step-link {
+  color: #3182ce; /* text-blue-700 */
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.list-group{
+  display: flex;
+  flex-direction: column;
 }
