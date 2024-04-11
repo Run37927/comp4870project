@@ -1,6 +1,9 @@
 using DockerMVC.Data;
 using Microsoft.EntityFrameworkCore;
 using SignalrChat.Hubs;
+using Microsoft.AspNetCore.Identity;
+using comp4870project.Model;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,10 +12,23 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
+// builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<User, IdentityRole>(
+options =>
+{
+    options.Stores.MaxLengthForKeys = 128;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultUI()
+.AddDefaultTokenProviders();
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 
 builder.Services.AddSignalR();
+builder.Services.AddScoped<StripePaymentService>();
+
+StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 var app = builder.Build();
 
@@ -27,8 +43,23 @@ app.UseRouting();
 
 app.UseAuthorization();
 app.MapHub<ChatHub>("/chatHub");
-app.MapHub<DrawDotHub>("/drawDotHub");
 
 app.MapRazorPages();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        context.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        // Log or handle the exception as needed
+        Console.WriteLine($"An error occurred while migrating the database: {ex.Message}");
+    }
+}
 
 app.Run();

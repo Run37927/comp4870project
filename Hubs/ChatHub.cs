@@ -20,7 +20,7 @@ namespace SignalrChat.Hubs
         private readonly ApplicationDbContext _context;
         private static List<string> _chatHistory = new List<string>();
         private static Dictionary<string, UserPreferences> _userPreferences = new Dictionary<string, UserPreferences>();
-
+        private static Dictionary<string, string> onlineUsers = new Dictionary<string, string>();
         public ChatHub(IConfiguration configuration, ILogger<ChatHub> logger, ApplicationDbContext context)
         {
             _logger = logger;
@@ -195,7 +195,11 @@ namespace SignalrChat.Hubs
             }
         }
 
-
+        public async Task SendTypingNotification(string user)
+        {
+            // Broadcast to all clients except the sender
+            await Clients.Others.SendAsync("ReceiveTypingNotification", user);
+        }
 
         public async Task UpdateUserPreferences(string preference)
         {
@@ -292,6 +296,13 @@ namespace SignalrChat.Hubs
         {
             _logger.LogInformation("Connection ID: " + Context.ConnectionId);
             _userPreferences.Add(Context.ConnectionId, new UserPreferences());
+
+            var userName = Context.User.Identity.Name ?? "Anonymous";
+            onlineUsers.Add(Context.ConnectionId, userName);
+
+            // Broadcast the updated list of online users
+            Clients.All.SendAsync("UpdateOnlineUsers", onlineUsers.Values.ToList());
+
             return base.OnConnectedAsync();
         }
 
@@ -300,6 +311,16 @@ namespace SignalrChat.Hubs
         {
             // Remove the disconnected client's preferences
             _userPreferences.Remove(Context.ConnectionId);
+
+            // Also remove from online users list
+            if (onlineUsers.ContainsKey(Context.ConnectionId))
+            {
+                onlineUsers.Remove(Context.ConnectionId);
+
+                // Broadcast the updated list of online users
+                Clients.All.SendAsync("UpdateOnlineUsers", onlineUsers.Values.ToList());
+            }
+
             return base.OnDisconnectedAsync(exception);
         }
 

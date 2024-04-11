@@ -1,26 +1,132 @@
 ﻿@page
-<div class="container">
-    <div class="chat-container">
-        <div id="messagesList" class="messages-list">
-            @* messages will be inserted here *@
-        </div>
-        <div class="chat-input-group">
-            Language: <select id="languageSelect">
-                    <option value="en-US">English</option>
-                    <option value="fr-FR">French</option>
-                    <option value="es-ES">Spanish</option>
-                    <!-- Add other languages as needed -->
-                </select>
-            User: <input type="text" id="userInput" class="user-input" />
-        </div>
-        <div class="chat-input-group">
-            Message: <input type="text" id="messageInput" class="message-input" />
-            <input type="button" id="sendButton" value="Send" />
-        </div>
-        <div>
-            <input type="button" id="historyButton" value="History" />
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var firstName = user?.FirstName ?? "Guest";
+    var lastName = user?.LastName ?? "User";
+    var isSubscribed = user?.IsSubscribed ?? false;
+}
+
+<body data-is-subscribed="@isSubscribed"></body>
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="container">
+        <div class="chat-layout">
+            <div class="chat-container">
+                <div id="messagesList" class="messages-list">
+                    @* messages will be inserted here *@
+                </div>
+                <div class="chat-input-group">
+                    Language: <select id="languageSelect">
+                        <option value="en-US">English</option>
+                        <option value="fr-FR">French</option>
+                        <option value="es-ES">Spanish</option>
+                        <option value="ar-EG">Arabic 💎</option>
+                        <option value="ko-KR">Korean 💎</option>
+                    </select>
+                    User: <input type="text" id="userInput" class="user-input" value="@firstName @lastName" readonly />
+                    <input type="button" id="summaryButton" value="✨Summary" />
+                </div>
+                <div class="chat-input-group">
+                    <input type="text" id="messageInput" class="message-input" />
+                    <button type="button" id="sendButton" class="btn-icon">
+                        <i class="fa fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="online-users-container">
+                <div class="online-users-header">Online Users</div>
+                <ul id="onlineUsersList">
+                    <!-- Online users will be listed here -->
+                </ul>
+            </div>
         </div>
     </div>
-</div>
+}
+else
+{
+    <div>
+        <div class="custom-chat-intro">
+            <div class="custom-chat-announcement">
+                <p class="custom-chat-announcement-text">
+                    ChatPro is public!
+                </p>
+            </div>
+            <h1 class="custom-chat-heading">
+                Chat with <span>foreign</span> friends in your native language.
+            </h1>
+
+            <a class='btn-large' asp-area="Identity" asp-page="/Account/Register">
+                Get started
+                <span class="arrow-right">➡️</span>
+            </a>
+
+            <div class="community-section">
+                <div class="avatars">
+                    <img src="/womanone.jpg" alt="Women One">
+                    <img src="/womentwo.jpg" alt="Women Two">
+                    <img src="/womenthree.jpg" alt="Women Three">
+                    <img src="/manone.jpg" alt="Man One">
+                    <img src="/mantwo.jpg" alt="Man Two">
+                </div>
+                <div class="community-info">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="community-text">95,023+ Joined ChatPro</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative isolate">
+            <div class="content-container">
+                <div class="image-container">
+                    <img src='/dashboard-preview.png' alt='product preview' class="image-preview" />
+                </div>
+            </div>
+
+            <div aria-hidden="true" class="decorative-bg">
+                <div class="decorative-shape"></div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="mb-12 px-6 lg:px-8">
+                <div class="mx-auto max-w-2xl sm:text-center">
+                    <h2 class="content-heading">Start chatting now</h2>
+                </div>
+            </div>
+
+            <ol class="steps-list">
+                <li class="step-item">
+                    <div class="list-group">
+                        <span class="step-indicator">Step 1</span>
+                        <span class="step-title">Sign up for an account</span>
+                        <span class="step-description">Either starting out with a free plan or choose our <a href='/pricing'
+                                class="step-link">pro plan</a>.</span>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="list-group">
+                        <span class="step-indicator">Step 2</span>
+                        <span class="step-title">Start Chatting to anyone anywhere</span>
+                        <span class="step-description">We make your life easier.</span>
+
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="list-group">
+                        <span class="step-indicator">Step 3</span>
+                        <span class=" step-title">Generate summaries</span>
+                        <span class="step-description">It&apos;s that simple. Try out ChatPro today.</span>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
+}
+
+
 <script src="~/lib/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
