@@ -91,7 +91,14 @@ document.getElementById("sendButton").addEventListener("click", function (event)
 
 document.getElementById("languageSelect").addEventListener("change", function () {
     currentLanguage = this.value;
+    console.log("Selected language: " + this.value);
     updateLanguagePreference(this.value);
+
+    // Check if the selected language is Arabic or Korean and redirect to the /pricing page
+    if (currentLanguage === 'ar-EG' || currentLanguage === 'ko-KR') {
+        console.log("Redirecting to /pricing");
+        window.location.href = '/pricing';
+    }
 });
 
 // Example: Sending language preference to the server
