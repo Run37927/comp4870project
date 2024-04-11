@@ -180,7 +180,6 @@ h1 .highlight {
   text-align: center;
 }
 
-/* For the h1 */
 .custom-chat-heading {
   max-width: 56rem; /* max-w-4xl */
   font-size: 4rem; /* text-5xl */
@@ -191,7 +190,6 @@ h1 .highlight {
   color: #3182ce; /* text-blue-600 */
 }
 
-/* For the a */
 .btn-large {
   padding: 10px 20px;
   background-color: #007bff;
@@ -201,11 +199,9 @@ h1 .highlight {
   display: inline-block;
   margin-top: 20px;
 }
-
-.btn-large .arrow-right {
-  margin-left: 0.5rem; /* ml-2 */
-  height: 1.25rem; /* h-5 */
-  width: 1.25rem; /* w-5 */
+.btn-large:hover {
+  background-color: #0056b3; /* Darker shade for hover effect */
+  color: #fff;
 }
 
 .relative {
