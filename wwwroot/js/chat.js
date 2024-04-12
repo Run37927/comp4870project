@@ -20,7 +20,10 @@ function addMessageToChat(user, message, messageId, language, sentDate, isHistor
     console.log("Received message: " + message + " from " + user + " with id " + messageId + " in language " + language)
     var timestamp = new Date().toLocaleTimeString(); // Add a timestamp to each message
     if (sentDate) {
-        timestamp = new Date(sentDate).toLocaleTimeString();
+        // Adjust the date from UTC to local time
+        const messageDate = new Date(sentDate);
+        messageDate.setHours(messageDate.getHours());
+        timestamp = messageDate.toLocaleTimeString();
     }
 
     // Create elements for the message, header, and content
