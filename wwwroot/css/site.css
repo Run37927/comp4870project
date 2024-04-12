@@ -38,6 +38,7 @@ p {
   flex: 1;
   background-color: #f8f9fa; /* Lighten the background to match the chat container */
   padding-left: 16px; /* Add some padding to the left for better separation */
+  padding-right: 16px; /* Add some padding to the right for better separation */
 }
 .online-users-header {
   font-weight: bold;
@@ -51,6 +52,11 @@ p {
 }
 #onlineUsersList li {
   padding: 10px 15px; /* Match the chat messages padding for consistency */
+}
+#onlineUsersList li:hover {
+  background-color: #e9ecef; /* Light gray background on hover */
+  border-radius: 8px; /* Rounded corners for the hover effect */
+  cursor: pointer; /* Changes the cursor to a pointer to indicate it's clickable */
 }
 .message-container {
   background-color: #ffffff;
