@@ -16,7 +16,7 @@ function getUsersColor(user) {
 // Disable send button until connection is established
 document.getElementById("sendButton").disabled = true;
 
-function addMessageToChat(user, message, messageId, language, sentDate) {
+function addMessageToChat(user, message, messageId, language, sentDate, isHistory = false) {
     console.log("Received message: " + message + " from " + user + " with id " + messageId + " in language " + language)
     var timestamp = new Date().toLocaleTimeString(); // Add a timestamp to each message
     if (sentDate) {
@@ -51,7 +51,7 @@ function addMessageToChat(user, message, messageId, language, sentDate) {
     messageContainer.appendChild(messageHeader);
     messageContainer.appendChild(messageContent);
 
-    if (language !== currentLanguage) {
+    if (language !== currentLanguage && !isHistory) {
         var translatedContent = document.createElement("div");
         translatedContent.classList.add("translated-content");
         translatedContent.textContent = "Translation: Loading...";
@@ -129,7 +129,7 @@ connection.on("ReceiveChatHistory", function (messageList) {
     console.log(messageList)
     // MessageList is an array
     for (var i = messageList.length; i > 0; i--) {
-        addMessageToChat(messageList[i - 1].senderName, messageList[i - 1].content, messageList[i - 1].id, messageList[i - 1].language, messageList[i - 1].sentDate);
+        addMessageToChat(messageList[i - 1].senderName, messageList[i - 1].content, messageList[i - 1].id, messageList[i - 1].language, messageList[i - 1].sentDate, true);
     }
 });
 

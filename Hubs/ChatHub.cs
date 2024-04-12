@@ -301,6 +301,19 @@ namespace SignalrChat.Hubs
             // Get the last 10 messages from the database that match language
             var lastMessages = _context.Messages.Where(m => m.OriginalMessage == true).OrderByDescending(m => m.SentDate).Take(10).ToList();
 
+            for (int i = 0; i < lastMessages.Count; i++)
+            {
+                if (lastMessages[i].Language != language)
+                {
+                    // Check if already translated in database
+                    var translation = _context.Messages.Where(m => m.MessageId == lastMessages[i].MessageId && m.Language == language).FirstOrDefault();
+                    if (translation != null)
+                    {
+                        lastMessages[i].Content = translation.Content;
+                    }
+                }
+            }
+
             // Check if the user wants to receive notifications
             if (_userPreferences[connectionId].ReceiveNotifications)
             {
