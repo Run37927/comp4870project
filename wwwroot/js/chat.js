@@ -103,14 +103,18 @@ connection.on("UpdateOnlineUsers", function (onlineUsers) {
         usersList.appendChild(li);
     });
 });
-
+let typingTimeout = null;
 connection.on("ReceiveTypingNotification", function (user) {
+    // Cancel the previous timeout if it exists
+    if (typingTimeout) {
+        clearTimeout(typingTimeout);
+    }
     var typingIndicator = document.getElementById("typingIndicator");
     typingIndicator.textContent = user + " is typing...";
     typingIndicator.style.color = "#888"
 
     // Hide the typing indicator after a delay
-    setTimeout(function () {
+    typingTimeout = setTimeout(function () {
         typingIndicator.style.color = "transparent";
         typingIndicator.textContent = "Hidden Text";
     }, 3000); // Adjust the delay as needed
