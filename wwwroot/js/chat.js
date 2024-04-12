@@ -102,16 +102,13 @@ connection.on("UpdateOnlineUsers", function (onlineUsers) {
 
 connection.on("ReceiveTypingNotification", function (user) {
     var typingIndicator = document.getElementById("typingIndicator");
-    if (!typingIndicator) {
-        typingIndicator = document.createElement("div");
-        typingIndicator.setAttribute("id", "typingIndicator");
-        document.getElementById("messagesList").appendChild(typingIndicator);
-    }
     typingIndicator.textContent = user + " is typing...";
+    typingIndicator.style.color = "#888"
 
     // Hide the typing indicator after a delay
     setTimeout(function () {
-        typingIndicator.textContent = "";
+        typingIndicator.style.color = "transparent";
+        typingIndicator.textContent = "Hidden Text";
     }, 3000); // Adjust the delay as needed
 });
 

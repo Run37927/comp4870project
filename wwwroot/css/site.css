@@ -106,7 +106,7 @@ p {
   float: left; /* Align to the left of the message */
 }
 #typingIndicator {
-  color: #888;
+  color: transparent; /* Hide the text */
   font-style: italic;
   padding: 5px;
 }
