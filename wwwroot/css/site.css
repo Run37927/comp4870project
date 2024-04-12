@@ -79,6 +79,14 @@ p {
   border-radius: 8px;
   min-height: 300px; /* Minimum height to maintain size without messages */
 }
+.summary-message {
+  background-color: #e9ecef; /* A different background color for summary messages */
+  border-left: 4px solid #4a90e2; /* A solid left border for emphasis */
+  padding: 10px;
+  margin: 10px 0; /* Space above and below the summary message */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* A subtle shadow for depth */
+}
 .initials-circle {
   width: 40px; /* Circle size */
   height: 40px; /* Circle size */
