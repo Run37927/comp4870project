@@ -104,8 +104,26 @@ connection.on("UpdateOnlineUsers", function (onlineUsers) {
     }
     usersList.innerHTML = ''; // Clear existing list
     onlineUsers.forEach(function (user) {
+        var username = user.split('@')[0]; // Split the email and take the first part
+
+        // Create list item
         var li = document.createElement("li");
-        li.textContent = user; // Assuming 'user' is a string with the user's name or identifier
+
+        // Create initials circle
+        var initialsCircle = document.createElement("div");
+        initialsCircle.classList.add("initials-circle-online");
+        var initials = username.split(' ').map((n) => n[0]).join('').toUpperCase();
+        initialsCircle.textContent = initials;
+        initialsCircle.style.backgroundColor = getUsersColor(username); // Assuming you have a function to assign colors
+
+        // Append initials circle to list item
+        li.appendChild(initialsCircle);
+
+        // Create a text node for the username and append it to the list item
+        var textNode = document.createTextNode(" " + username); // Add space for separation
+        li.appendChild(textNode);
+
+        // Append the list item to the users list
         usersList.appendChild(li);
     });
 });
@@ -172,7 +190,7 @@ document.getElementById("messageInput").addEventListener("input", function () {
 document.getElementById("messageInput").addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        
+
         var user = document.getElementById("userInput").value;
         var message = document.getElementById("messageInput").value;
         if (message.trim() !== '') {

@@ -51,12 +51,38 @@ p {
   margin: 0; /* Remove default margin */
 }
 #onlineUsersList li {
+  display: flex;
+  align-items: center;
   padding: 10px 15px; /* Match the chat messages padding for consistency */
+  color: #6c757d; /* Dark text for readability */
 }
 #onlineUsersList li:hover {
   background-color: #e9ecef; /* Light gray background on hover */
   border-radius: 8px; /* Rounded corners for the hover effect */
   cursor: pointer; /* Changes the cursor to a pointer to indicate it's clickable */
+}
+.initials-circle-online{
+  position: relative; 
+  width: 35px; /* Circle size */
+  height: 35px; /* Circle size */
+  border-radius: 50%; /* Makes it round */
+  color: white; /* Text color */
+  display: flex;
+  justify-content: center; /* Center the text horizontally */
+  align-items: center; /* Center the text vertically */
+  font-size: 14px; /* Adjust as needed */
+  margin-right: 10px; /* Space between the circle and the message */
+}
+.initials-circle-online::after {
+  content: ""; /* Required for the pseudo-element to display */
+  position: absolute;
+  bottom: -4px; /* Adjust as needed to position the dot correctly */
+  right: -5px; /* Adjust as needed to position the dot correctly */
+  width: 15px; /* Size of the dot */
+  height: 15px; /* Size of the dot */
+  background-color: green; /* Dot color */
+  border-radius: 50%; /* Makes it round */
+  border: 2px solid #f8f9fa; /* Optional: adds a border to the dot to separate it from the avatar background */
 }
 .message-container {
   background-color: #ffffff;
@@ -108,6 +134,7 @@ p {
   margin-right: 10px; /* Space between the circle and the message */
   float: left; /* Align to the left of the message */
 }
+
 #typingIndicator {
   color: transparent; /* Hide the text */
   font-style: italic;
