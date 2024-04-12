@@ -1,4 +1,7 @@
 @page
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @{
     ViewData["Title"] = "Pricing";
 }
@@ -34,7 +37,16 @@
             </ul>
             <div class="kinda-pro-plan-divider"></div>
             <div class="kinda-plan-action">
-                <a href="/upgrade" class="kinda-upgrade-button">Upgrade to Pro</a>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <!-- User is signed in, show the upgrade link -->
+                    <a href="/upgrade" class="kinda-upgrade-button">Upgrade to Pro</a>
+                }
+                else
+                {
+                    <!-- User is not signed in, redirect to the register page -->
+                    <a href="/Identity/Account/Register" class="kinda-upgrade-button">Upgrade to Pro</a>
+                }
             </div>
         </div>
 
@@ -64,7 +76,16 @@
             </ul>
             <div class="kinda-pro-plan-divider"></div>
             <div class="kinda-pro-plan-action">
-                <a href="/upgrade" class="kinda-upgrade-button">Upgrade to Pro</a>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <!-- User is signed in, show the upgrade link -->
+                    <a href="/upgrade" class="kinda-upgrade-button">Upgrade to Pro</a>
+                }
+                else
+                {
+                    <!-- User is not signed in, redirect to the register page -->
+                    <a href="/Identity/Account/Register" class="kinda-upgrade-button">Upgrade to Pro</a>
+                }
             </div>
         </div>
     </div>
