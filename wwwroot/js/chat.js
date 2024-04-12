@@ -3,13 +3,14 @@
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 var currentLanguage = "en-US";
 
-function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
+function getUsersColor(user) {
+    // use the user's name to generate a unique color
+    var hash = 0;
+    for (var i = 0; i < user.length; i++) {
+        hash = user.charCodeAt(i) + ((hash << 5) - hash);
     }
-    return color;
+    var c = (hash & 0x00FFFFFF).toString(16).toUpperCase();
+    return "#" + "00000".substring(0, 6 - c.length) + c;
 }
 
 // Disable send button until connection is established
@@ -31,7 +32,7 @@ connection.on("ReceiveMessage", function (user, message, messageId, language) {
     var initialsCircle = document.createElement("div");
     initialsCircle.classList.add("initials-circle");
     initialsCircle.textContent = initials; // Assuming user is "FirstName LastName"
-    initialsCircle.style.backgroundColor = getRandomColor();
+    initialsCircle.style.backgroundColor = getUsersColor(user);
 
     var messageHeader = document.createElement("div");
     messageHeader.classList.add("message-header");
