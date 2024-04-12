@@ -16,9 +16,12 @@ function getUsersColor(user) {
 // Disable send button until connection is established
 document.getElementById("sendButton").disabled = true;
 
-connection.on("ReceiveMessage", function (user, message, messageId, language) {
+function addMessageToChat(user, message, messageId, language, sentDate) {
     console.log("Received message: " + message + " from " + user + " with id " + messageId + " in language " + language)
     var timestamp = new Date().toLocaleTimeString(); // Add a timestamp to each message
+    if (sentDate) {
+        timestamp = new Date(sentDate).toLocaleTimeString();
+    }
 
     // Create elements for the message, header, and content
     var messageContainer = document.createElement("div");
@@ -61,16 +64,16 @@ connection.on("ReceiveMessage", function (user, message, messageId, language) {
     // Scroll to the bottom of the div
     var messagesDiv = document.getElementById("messagesList");
     messagesDiv.scrollTop = messagesDiv.scrollHeight - messagesDiv.clientHeight;
+}
+
+connection.on("ReceiveMessage", function (user, message, messageId, language) {
+    addMessageToChat(user, message, messageId, language);
 });
 
 connection.on("ReceiveTranslation", function (messageId, translation, language) {
     var messageContainer = document.getElementById(messageId);
     var translatedContent = messageContainer.getElementsByClassName("translated-content")[0];
     translatedContent.textContent = `Translation: ${translation}`;
-});
-
-connection.on("ReceiveChatHistory", function (messageList, language) {
-    console.log(messageList);
 });
 
 
@@ -120,8 +123,21 @@ connection.on("ReceiveTypingNotification", function (user) {
     }, 3000); // Adjust the delay as needed
 });
 
+// Recieve the chat history from the server
+connection.on("ReceiveChatHistory", function (messageList) {
+    console.log("Received chat history: " + messageList);
+    console.log(messageList)
+    // MessageList is an array
+    for (var i = messageList.length; i > 0; i--) {
+        addMessageToChat(messageList[i - 1].senderName, messageList[i - 1].content, messageList[i - 1].id, messageList[i - 1].language, messageList[i - 1].sentDate);
+    }
+});
+
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
+    connection.invoke("GetChatHistory").catch(function (err) {
+        return console.error(err.toString());
+    });
 }).catch(function (err) {
     return console.error(err.toString());
 });
