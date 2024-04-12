@@ -22,7 +22,7 @@ function addMessageToChat(user, message, messageId, language, sentDate, isHistor
     if (sentDate) {
         // Adjust the date from UTC to local time
         const messageDate = new Date(sentDate);
-        messageDate.setHours(messageDate.getHours() + 8);
+        messageDate.setHours(messageDate.getHours() + 17);
         timestamp = messageDate.toLocaleTimeString();
     }
 
