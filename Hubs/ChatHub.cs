@@ -291,6 +291,24 @@ namespace SignalrChat.Hubs
             }
         }
 
+        // Send the User the last 10 messages in their language
+        public async Task GetChatHistory()
+        {
+            // Get the language of requesting user
+            var connectionId = Context.ConnectionId;
+            var language = _userPreferences[connectionId].Language;
+
+            // Get the last 10 messages from the database that match language
+            var lastMessages = _context.Messages.Where(m => m.OriginalMessage == true).OrderByDescending(m => m.SentDate).Take(10).ToList();
+
+            // Check if the user wants to receive notifications
+            if (_userPreferences[connectionId].ReceiveNotifications)
+            {
+                // Send the messages to the user
+                await Clients.Client(connectionId).SendAsync("ReceiveChatHistory", lastMessages, _userPreferences[connectionId].Language);
+            }
+        }
+
         // Override OnConnectedAsync to track connections
         public override Task OnConnectedAsync()
         {
