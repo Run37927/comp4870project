@@ -72,6 +72,9 @@ p {
 .message-header{
   color: #6c757d; /* Slightly darker text for header */
 }
+.message-content{
+  padding-left: 50px; /* Add some padding to the left for better separation */
+}
 .translated-content {
   color: #4a90e2; /* Choose a color that stands out */
   font-style: italic; /* Optional: italicize to differentiate from the main message */
