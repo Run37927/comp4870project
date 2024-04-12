@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using comp4870project.Model;
 using DockerMVC.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -18,14 +19,16 @@ namespace SignalrChat.Hubs
         private readonly IConfiguration _configuration;
         private readonly ILogger<ChatHub> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
         private static List<string> _chatHistory = new List<string>();
         private static Dictionary<string, UserPreferences> _userPreferences = new Dictionary<string, UserPreferences>();
         private static Dictionary<string, string> onlineUsers = new Dictionary<string, string>();
-        public ChatHub(IConfiguration configuration, ILogger<ChatHub> logger, ApplicationDbContext context)
+        public ChatHub(IConfiguration configuration, ILogger<ChatHub> logger, ApplicationDbContext context, UserManager<User> userManager)
         {
             _logger = logger;
             _configuration = configuration;
             _context = context;
+            _userManager = userManager;
         }
 
 
@@ -292,18 +295,28 @@ namespace SignalrChat.Hubs
         }
 
         // Override OnConnectedAsync to track connections
-        public override Task OnConnectedAsync()
+        public override async Task OnConnectedAsync()
         {
             _logger.LogInformation("Connection ID: " + Context.ConnectionId);
             _userPreferences.Add(Context.ConnectionId, new UserPreferences());
 
-            var userName = Context.User.Identity.Name ?? "Anonymous";
-            onlineUsers.Add(Context.ConnectionId, userName);
+            var user = await _userManager.GetUserAsync(Context.User!);
+
+            if (user != null)
+            {
+                var firstName = user.FirstName;
+                var lastName = user.LastName;
+                onlineUsers.Add(Context.ConnectionId, firstName + " " + lastName);
+            }
+            else
+            {
+                onlineUsers.Add(Context.ConnectionId, "Guest User");
+            }
 
             // Broadcast the updated list of online users
-            Clients.All.SendAsync("UpdateOnlineUsers", onlineUsers.Values.ToList());
+            await Clients.All.SendAsync("UpdateOnlineUsers", onlineUsers.Values.ToList());
 
-            return base.OnConnectedAsync();
+            await base.OnConnectedAsync();
         }
 
         // Override OnDisconnectedAsync to clean up when a connection is lost
