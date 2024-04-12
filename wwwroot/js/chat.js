@@ -144,6 +144,22 @@ document.getElementById("messageInput").addEventListener("input", function () {
     }
 });
 
+document.getElementById("messageInput").addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        
+        var user = document.getElementById("userInput").value;
+        var message = document.getElementById("messageInput").value;
+        if (message.trim() !== '') {
+            connection.invoke("SendMessage", user, message).catch(function (err) {
+                return console.error(err.toString());
+            });
+            // Clear the message input field after sending the message
+            document.getElementById("messageInput").value = '';
+        }
+    }
+});
+
 document.getElementById("languageSelect").addEventListener("change", function () {
     currentLanguage = this.value;
     console.log("Selected language: " + this.value);
@@ -167,11 +183,11 @@ function updateLanguagePreference(language) {
     });
 }
 
-document.getElementById("historyButton").addEventListener("click", function () {
-    connection.invoke("ChatHistory").catch(function (err) {
-        return console.error(err.toString());
-    });
-});
+// document.getElementById("historyButton").addEventListener("click", function () {
+//     connection.invoke("ChatHistory").catch(function (err) {
+//         return console.error(err.toString());
+//     });
+// });
 
 document.getElementById("summaryButton").addEventListener("click", function (event) {
     var user = document.getElementById("userInput").value;
