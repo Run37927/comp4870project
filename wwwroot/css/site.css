@@ -156,6 +156,12 @@ p {
   background-color: #0056b3; /* Darker shade for hover effect */
 }
 
+
+
+
+.navbar-brand{
+  margin-right: 0.5rem;
+}
 .navbar {
   position: sticky;
   top: 0;
