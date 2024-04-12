@@ -57,6 +57,10 @@ connection.on("ReceiveMessage", function (user, message, messageId, language) {
 
     // Append the message container to the message list
     document.getElementById("messagesList").appendChild(messageContainer);
+
+    // Scroll to the bottom of the div
+    var messagesDiv = document.getElementById("messagesList");
+    messagesDiv.scrollTop = messagesDiv.scrollHeight - messagesDiv.clientHeight;
 });
 
 connection.on("ReceiveTranslation", function (messageId, translation, language) {
