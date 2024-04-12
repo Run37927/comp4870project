@@ -116,11 +116,11 @@ p {
 }
 .summary-message {
   background-color: #e9ecef; /* A different background color for summary messages */
+  opacity: 0.8; /* Slightly transparent for differentiation */
   border-left: 4px solid #4a90e2; /* A solid left border for emphasis */
   padding: 10px;
   margin: 10px 0; /* Space above and below the summary message */
   border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* A subtle shadow for depth */
 }
 .initials-circle {
   width: 40px; /* Circle size */
@@ -134,7 +134,17 @@ p {
   margin-right: 10px; /* Space between the circle and the message */
   float: left; /* Align to the left of the message */
 }
-
+#aiStatus{
+  display: none;
+  background: linear-gradient(45deg, #5e72e4, #825ee4);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+}
 #typingIndicator {
   color: transparent; /* Hide the text */
   font-style: italic;

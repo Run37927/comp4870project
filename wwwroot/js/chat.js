@@ -81,11 +81,13 @@ connection.on("ReceiveTranslation", function (messageId, translation, language) 
 
 
 connection.on("ReceiveSummary", function (summary) {
+    document.getElementById("aiStatus").style.display = 'none';
+
     var messageContainer = document.createElement("div");
     messageContainer.classList.add("message-container", "summary-message");
 
     var messageContent = document.createElement("div");
-    messageContent.classList.add("message-content");
+    messageContent.classList.add("summary-content");
     messageContent.innerHTML = summary; // summary messages are safe from user input
 
     messageContainer.appendChild(messageContent);
@@ -233,6 +235,8 @@ function updateLanguagePreference(language) {
 // });
 
 document.getElementById("summaryButton").addEventListener("click", function (event) {
+    document.getElementById("aiStatus").style.display = 'block';
+
     var user = document.getElementById("userInput").value;
     connection.invoke("SendMessage", user, "/summary").catch(function (err) {
         return console.error(err.toString());
